@@ -61,9 +61,7 @@ final class Route implements Arrayable
 
     public function methods()
     {
-        return array_filter($this->route->methods(), static function ($method) {
-            return $method !== 'HEAD';
-        });
+        return $this->route->methods();
     }
 
     public function getRoute()
