@@ -13,22 +13,13 @@ final class Generate extends Command
 
     protected $description = 'Generating documentation for Swagger';
 
-    protected $swagger;
-
-    public function __construct(Swagger $swagger)
-    {
-        parent::__construct();
-
-        $this->swagger = $swagger;
-    }
-
-    public function handle()
+    public function handle(Swagger $swagger)
     {
         foreach ($this->routes() as $route) {
-            $this->swagger->addRoute($route);
+            $swagger->addRoute($route);
         }
 
-        $this->store();
+        $this->store($swagger);
 
         $this->info('nice');
     }
@@ -38,11 +29,11 @@ final class Generate extends Command
         return Route::mapped();
     }
 
-    protected function store()
+    protected function store(Swagger $swagger)
     {
         File::store(
             base_path('foo.json'),
-            json_encode($this->swagger->toArray(), JSON_PRETTY_PRINT)
+            json_encode($swagger->toArray(), JSON_PRETTY_PRINT)
         );
     }
 }
