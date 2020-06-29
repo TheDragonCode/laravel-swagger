@@ -7,8 +7,8 @@ use Illuminate\Routing\RouteCollectionInterface;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @method static \Illuminate\Routing\Route[] map(RouteCollectionInterface $collection)
- * @method static \Helldar\LaravelSwagger\Entities\Route[] mapped()
+ * @method static \Illuminate\Support\Collection|\Helldar\LaravelSwagger\Entities\Route[] map(RouteCollectionInterface $collection)
+ * @method static \Illuminate\Support\Collection|\Helldar\LaravelSwagger\Entities\Route[] mapped()
  */
 final class Route extends Facade
 {

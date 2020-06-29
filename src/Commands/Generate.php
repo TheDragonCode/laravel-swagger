@@ -2,9 +2,7 @@
 
 namespace Helldar\LaravelSwagger\Commands;
 
-use Helldar\LaravelSwagger\Facades\Route;
-use Helldar\LaravelSwagger\Services\Swagger;
-use Helldar\Support\Facades\File;
+use Helldar\LaravelSwagger\Factories\Generator;
 use Illuminate\Console\Command;
 
 final class Generate extends Command
@@ -13,27 +11,14 @@ final class Generate extends Command
 
     protected $description = 'Generating documentation for Swagger';
 
-    public function handle(Swagger $swagger)
+    protected $exceptions;
+
+    public function handle(Generator $factory)
     {
-        foreach ($this->routes() as $route) {
-            $swagger->addRoute($route);
-        }
+        $this->info('Regenerating docs...');
 
-        $this->store($swagger);
+        $factory->make()->generate();
 
-        $this->info('nice');
-    }
-
-    protected function routes()
-    {
-        return Route::mapped();
-    }
-
-    protected function store(Swagger $swagger)
-    {
-        File::store(
-            base_path('foo.json'),
-            json_encode($swagger->toArray(), JSON_PRETTY_PRINT)
-        );
+        $this->info('Documentation generated successfully.');
     }
 }
