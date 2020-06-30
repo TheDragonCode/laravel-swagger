@@ -3,107 +3,37 @@
 namespace Helldar\LaravelSwagger\Support;
 
 use Helldar\LaravelSwagger\Exceptions\ConfigException;
+use Helldar\LaravelSwagger\Exceptions\UnknownConfigKeyException;
 use Illuminate\Support\Facades\Config as IlluminateConfig;
+use Illuminate\Support\Str;
 
 final class Config
 {
     public const KEY = 'laravel-swagger';
 
-    public function get($key, $default = null)
-    {
-        return IlluminateConfig::get($this->compileKey($key), $default);
-    }
+    protected $check_keys = ['title', 'version', 'routes.uri', 'servers', 'path', 'filename'];
 
     /**
-     * @throws \Helldar\LaravelSwagger\Exceptions\ConfigException
+     * @param $key
+     * @param $arguments
      *
-     * @return string
-     */
-    public function title(): string
-    {
-        $this->checkForEmptiness('title');
-
-        return $this->get('title');
-    }
-
-    /**
      * @throws \Helldar\LaravelSwagger\Exceptions\ConfigException
-     *
-     * @return string
+     * @throws \Helldar\LaravelSwagger\Exceptions\UnknownConfigKeyException
+     * @return mixed
      */
-    public function version(): string
+    public function __call($key, $arguments)
     {
-        $this->checkForEmptiness('version');
+        $key = $this->prepareKey($key);
 
-        return $this->get('version');
-    }
+        if (! $this->has($key)) {
+            throw new UnknownConfigKeyException($this->compileKey($key));
+        }
 
-    /**
-     * @throws \Helldar\LaravelSwagger\Exceptions\ConfigException
-     *
-     * @return string
-     */
-    public function routesUri(): string
-    {
-        $this->checkForEmptiness('routes.uri');
+        if (in_array($key, $this->check_keys)) {
+            $this->checkForEmptiness($key);
+        }
 
-        return $this->get('routes.uri');
-    }
-
-    public function routesHideMethods(): array
-    {
-        return $this->get('routes.hide.methods');
-    }
-
-    public function routesHideMatching(): array
-    {
-        return $this->get('routes.hide.matching');
-    }
-
-    /**
-     * @throws \Helldar\LaravelSwagger\Exceptions\ConfigException
-     *
-     * @return array
-     */
-    public function servers(): array
-    {
-        $this->checkForEmptiness('servers');
-
-        return $this->get('servers');
-    }
-
-    public function securitySchemes(): array
-    {
-        return $this->get('security_schemes');
-    }
-
-    public function exceptions(): array
-    {
-        return $this->get('exceptions');
-    }
-
-    /**
-     * @throws \Helldar\LaravelSwagger\Exceptions\ConfigException
-     *
-     * @return string
-     */
-    public function path(): string
-    {
-        $this->checkForEmptiness('path');
-
-        return $this->get('path');
-    }
-
-    /**
-     * @throws \Helldar\LaravelSwagger\Exceptions\ConfigException
-     *
-     * @return string
-     */
-    public function filename(): string
-    {
-        $this->checkForEmptiness('filename');
-
-        return $this->get('filename');
+        return $this->get($key);
     }
 
     public function key(): string
@@ -116,9 +46,24 @@ final class Config
         return static::KEY . '.php';
     }
 
+    public function get(string $key, $default = null)
+    {
+        return IlluminateConfig::get($this->compileKey($key), $default);
+    }
+
+    public function has(string $key): bool
+    {
+        return IlluminateConfig::has($this->compileKey($key));
+    }
+
     protected function compileKey(string $key)
     {
         return static::KEY . '.' . $key;
+    }
+
+    protected function prepareKey(string $key)
+    {
+        return Str::snake($key, '.');
     }
 
     /**

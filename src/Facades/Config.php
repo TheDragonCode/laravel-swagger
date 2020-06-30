@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static array routesHideMatching()
  * @method static array servers()
  * @method static array securitySchemes()
+ * @method static array securityBase()
  * @method static array exceptions()
  * @method static string path()
  * @method static string filename()
