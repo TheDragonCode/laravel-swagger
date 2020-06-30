@@ -2,6 +2,7 @@
 
 namespace Helldar\LaravelSwagger\Support;
 
+use Helldar\LaravelSwagger\Exceptions\ConfigException;
 use Illuminate\Support\Facades\Config as IlluminateConfig;
 
 final class Config
@@ -13,18 +14,39 @@ final class Config
         return IlluminateConfig::get($this->compileKey($key), $default);
     }
 
+    /**
+     * @throws \Helldar\LaravelSwagger\Exceptions\ConfigException
+     *
+     * @return string
+     */
     public function title(): string
     {
+        $this->checkForEmptiness('title');
+
         return $this->get('title');
     }
 
+    /**
+     * @throws \Helldar\LaravelSwagger\Exceptions\ConfigException
+     *
+     * @return string
+     */
     public function version(): string
     {
+        $this->checkForEmptiness('version');
+
         return $this->get('version');
     }
 
+    /**
+     * @throws \Helldar\LaravelSwagger\Exceptions\ConfigException
+     *
+     * @return string
+     */
     public function routesUri(): string
     {
+        $this->checkForEmptiness('routes.uri');
+
         return $this->get('routes.uri');
     }
 
@@ -38,8 +60,15 @@ final class Config
         return $this->get('routes.hide.matching');
     }
 
+    /**
+     * @throws \Helldar\LaravelSwagger\Exceptions\ConfigException
+     *
+     * @return array
+     */
     public function servers(): array
     {
+        $this->checkForEmptiness('servers');
+
         return $this->get('servers');
     }
 
@@ -53,13 +82,27 @@ final class Config
         return $this->get('exceptions');
     }
 
+    /**
+     * @throws \Helldar\LaravelSwagger\Exceptions\ConfigException
+     *
+     * @return string
+     */
     public function path(): string
     {
+        $this->checkForEmptiness('path');
+
         return $this->get('path');
     }
 
+    /**
+     * @throws \Helldar\LaravelSwagger\Exceptions\ConfigException
+     *
+     * @return string
+     */
     public function filename(): string
     {
+        $this->checkForEmptiness('filename');
+
         return $this->get('filename');
     }
 
@@ -73,8 +116,20 @@ final class Config
         return static::KEY . '.php';
     }
 
-    protected function compileKey($key)
+    protected function compileKey(string $key)
     {
         return static::KEY . '.' . $key;
+    }
+
+    /**
+     * @param  string  $key
+     *
+     * @throws \Helldar\LaravelSwagger\Exceptions\ConfigException
+     */
+    protected function checkForEmptiness(string $key): void
+    {
+        if (! $this->get($key)) {
+            throw new ConfigException($this->compileKey($key));
+        }
     }
 }
