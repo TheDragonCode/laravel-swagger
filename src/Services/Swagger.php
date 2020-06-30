@@ -9,7 +9,6 @@ use Helldar\LaravelSwagger\Facades\Responses as ResponseHelper;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 use Illuminate\Support\Stringable;
 
 final class Swagger implements Arrayable, Jsonable
@@ -20,12 +19,12 @@ final class Swagger implements Arrayable, Jsonable
 
     protected $components = [];
 
-    public function appName(): string
+    public function name(): string
     {
         return Config::get('title');
     }
 
-    public function apiVersion(): string
+    public function version(): string
     {
         return Config::get('version');
     }
@@ -37,7 +36,6 @@ final class Swagger implements Arrayable, Jsonable
         if ($routes = trim($this->routes(), '/*')) {
             foreach ($servers as &$server) {
                 $url = Arr::get($server, 'url');
-                $url = Str::finish($url, '/');
 
                 Arr::set($server, 'url', $url . '/' . $routes);
             }
@@ -54,12 +52,6 @@ final class Swagger implements Arrayable, Jsonable
     public function addRoute(Route $route)
     {
         foreach ($route->methods() as $method) {
-            $method = Str::lower($method);
-
-            if ($method === 'head') {
-                continue;
-            }
-
             $this->paths[$route->uri()][$method] = $route->addResponses(ResponseHelper::get());
         }
     }
@@ -77,8 +69,8 @@ final class Swagger implements Arrayable, Jsonable
             'openapi' => static::OPENAPI,
 
             'info' => [
-                'title'   => $this->appName(),
-                'version' => $this->apiVersion(),
+                'title'   => $this->name(),
+                'version' => $this->version(),
             ],
 
             'servers'    => $this->servers(),

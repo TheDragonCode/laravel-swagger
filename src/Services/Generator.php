@@ -72,7 +72,7 @@ final class Generator
     {
         File::put(
             $this->getFilename('json'),
-            $this->swagger->toJson(JSON_PRETTY_PRINT)
+            $this->swagger->toJson(JSON_PRETTY_PRINT ^ JSON_OBJECT_AS_ARRAY ^ JSON_UNESCAPED_UNICODE)
         );
 
         return $this;
@@ -99,6 +99,6 @@ final class Generator
     {
         $path = rtrim($this->path, '/');
 
-        return $path . '/' . $this->filename . '-' . $this->swagger->apiVersion() . '.' . $extension;
+        return $path . '/' . $this->filename . '-' . $this->swagger->version() . '.' . $extension;
     }
 }

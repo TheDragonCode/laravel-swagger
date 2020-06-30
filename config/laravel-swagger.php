@@ -70,18 +70,28 @@ return [
     ],
 
     'exceptions' => [
+        503 => [
+            'name'        => MaintenanceModeException::class,
+            'description' => 'Maintenance Mode',
+        ],
         405 => [
             'name'        => MethodNotAllowedHttpException::class,
             'description' => 'Method Not Allowed',
         ],
 
-        503 => [
-            'name'        => MaintenanceModeException::class,
-            'description' => 'Maintenance Mode',
-        ],
     ],
 
     'path' => storage_path('app/private'),
 
     'filename' => 'api',
+
+    'hide' => [
+        'methods' => ['head'],
+
+        'matching' => [
+            '_debugbar*',
+            '_ignition*',
+            'telescope*',
+        ],
+    ],
 ];

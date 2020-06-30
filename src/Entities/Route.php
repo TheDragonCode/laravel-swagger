@@ -42,13 +42,24 @@ final class Route implements Arrayable, RouteContract, Mapped
      */
     public function map(RouteCollectionInterface $routes): Collection
     {
+        $matching = Config::get('hide.matching');
+        $base     = Str::of(Config::get('routes'))->finish('*');
+
         return collect($routes->getRoutes())
+            ->filter(function (RouteInstance $route) use ($base, $matching) {
+                $matched = Str::is($matching, $route->uri());
+                $allow   = Str::is($base, $route->uri());
+
+                return ! $matched && $allow;
+            })
             ->mapInto(static::class);
     }
 
     public function middleware(): array
     {
-        return $this->route->getAction('middleware');
+        return array_filter($this->route->getAction('middleware'), static function ($value) {
+            return $value !== 'api';
+        });
     }
 
     public function action(): string
@@ -63,39 +74,73 @@ final class Route implements Arrayable, RouteContract, Mapped
 
     public function uri(): string
     {
-        $url = trim($this->route->uri(), '/');
+        $base = Config::get('routes');
 
-        if ($routes = trim(Config::get('routes'), '/*')) {
-            $url = Str::before($url, $routes);
-        }
-
-        return Str::start($url, '/');
+        return Str::of($this->route->uri())
+            ->after($base)
+            ->start('/');
     }
 
     public function methods(): array
     {
-        return $this->route->methods();
+        $hide = Config::get('hide.methods');
+
+        return collect($this->route->methods())
+            ->filter(function ($method) use ($hide) {
+                return ! Str::of($method)
+                    ->lower()
+                    ->contains($hide);
+            })
+            ->map(function ($method) {
+                return Str::lower($method);
+            })->toArray();
     }
 
-    public function getRoute()
+    public function summary(): ?string
     {
-        return $this->route;
+        return Reflection::make($this->classname(), $this->action())->summary();
+    }
+
+    public function description(): ?string
+    {
+        return Reflection::make($this->classname(), $this->action())->description();
+    }
+
+    public function security(): array
+    {
+        $schemes = Config::get('security_schemes');
+        $items   = [];
+
+        foreach ($this->middleware() as $item) {
+            $item = Str::after($item, ':');
+
+            if (array_key_exists($item, $schemes)) {
+                $items[$item] = [];
+            }
+        }
+
+        return $items;
     }
 
     public function toArray()
     {
-        return [
-            'summary'     => 'Summary',
-            'description' => 'Description',
+        return array_filter([
+            'summary'     => $this->summary(),
+            'description' => $this->description(),
             'tags'        => $this->tags(),
             'operationId' => $this->getOperationId(),
             'parameters'  => [],
             'responses'   => $this->responses(),
-        ];
+            'security'    => $this->security(),
+        ], static function ($value) {
+            return ! empty($value);
+        });
     }
 
     public function responses(): array
     {
+        ksort($this->responses);
+
         return $this->responses;
     }
 
@@ -135,7 +180,8 @@ final class Route implements Arrayable, RouteContract, Mapped
                     ->replace('controller', '')
                     ->replace('-', ' ')
                     ->trim()
-                    ->title();
+                    ->title()
+                    ->plural();
             })
             ->toArray();
     }

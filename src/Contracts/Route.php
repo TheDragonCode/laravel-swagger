@@ -20,6 +20,12 @@ interface Route
 
     public function responses(): array;
 
+    public function summary(): ?string;
+
+    public function description(): ?string;
+
+    public function security(): array;
+
     public function addResponse(Responsible $response);
 
     public function addResponses(array $responses);
