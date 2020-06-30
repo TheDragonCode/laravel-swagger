@@ -8,6 +8,6 @@ final class ConfigException extends Exception
 {
     public function __construct(string $key)
     {
-        parent::__construct("The value of the '{$key}' configuration key cannot be empty.", 500);
+        parent::__construct("The value of the '{$key}' configuration key cannot be empty.");
     }
 }
