@@ -24,6 +24,7 @@ final class Response extends BaseEntity implements Responsible, Arrayable
     {
         return [
             'description' => $this->description(),
+            'content'     => $this->content(),
         ];
     }
 
@@ -35,5 +36,14 @@ final class Response extends BaseEntity implements Responsible, Arrayable
     public function description(): string
     {
         return $this->description;
+    }
+
+    public function content(): array
+    {
+        return [
+            'application/json' => [
+                'schema' => 'aaa',
+            ],
+        ];
     }
 }
