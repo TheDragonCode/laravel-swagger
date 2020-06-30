@@ -3,12 +3,9 @@
 namespace Helldar\LaravelSwagger\Entities;
 
 use Helldar\LaravelSwagger\Contracts\Schema as SchemaContract;
-use Helldar\LaravelSwagger\Traits\Makeable;
 
 final class SecuritySchema extends BaseEntity implements SchemaContract
 {
-    use Makeable;
-
     protected $name;
 
     protected $data;

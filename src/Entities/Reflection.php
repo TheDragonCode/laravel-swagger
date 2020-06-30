@@ -2,7 +2,6 @@
 
 namespace Helldar\LaravelSwagger\Entities;
 
-use Helldar\LaravelSwagger\Traits\Makeable;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\DocBlockFactory;
 use ReflectionClass;
@@ -10,8 +9,6 @@ use ReflectionMethod;
 
 final class Reflection extends BaseEntity
 {
-    use Makeable;
-
     /** @var \phpDocumentor\Reflection\DocBlockFactory */
     protected static $factory;
 
@@ -39,6 +36,20 @@ final class Reflection extends BaseEntity
     public function description(): ?string
     {
         return optional($this->getDocBlock())->getDescription();
+    }
+
+    public function getReflection()
+    {
+        return $this->reflection;
+    }
+
+    public function getDocBlock(): ?DocBlock
+    {
+        if ($comment = $this->reflection->getDocComment()) {
+            return $this->factory()->create($comment);
+        }
+
+        return null;
     }
 
     /**
@@ -73,14 +84,5 @@ final class Reflection extends BaseEntity
         }
 
         return static::$factory;
-    }
-
-    protected function getDocBlock(): ?DocBlock
-    {
-        if ($comment = $this->reflection->getDocComment()) {
-            return $this->factory()->create($comment);
-        }
-
-        return null;
     }
 }

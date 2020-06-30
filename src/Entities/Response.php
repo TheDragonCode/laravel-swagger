@@ -3,13 +3,10 @@
 namespace Helldar\LaravelSwagger\Entities;
 
 use Helldar\LaravelSwagger\Contracts\Responsible;
-use Helldar\LaravelSwagger\Traits\Makeable;
 use Illuminate\Contracts\Support\Arrayable;
 
 final class Response extends BaseEntity implements Responsible, Arrayable
 {
-    use Makeable;
-
     protected $code;
 
     protected $class;

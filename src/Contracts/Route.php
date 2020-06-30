@@ -20,6 +20,8 @@ interface Route
 
     public function responses(): array;
 
+    public function parameters(): array;
+
     public function summary(): ?string;
 
     public function description(): ?string;

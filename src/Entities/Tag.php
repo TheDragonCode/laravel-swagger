@@ -2,13 +2,10 @@
 
 namespace Helldar\LaravelSwagger\Entities;
 
-use Helldar\LaravelSwagger\Traits\Makeable;
 use Illuminate\Support\Str;
 
 final class Tag extends BaseEntity
 {
-    use Makeable;
-
     public $name;
 
     public $description;

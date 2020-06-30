@@ -2,7 +2,7 @@
 
 namespace Helldar\LaravelSwagger\Contracts;
 
-interface Grabeable
+interface Grabeable extends Mappable
 {
     public function handle();
 }

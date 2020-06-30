@@ -13,6 +13,8 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Route as RouteCollection;
 use Illuminate\Support\Str;
+use ReflectionParameter;
+use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 
 final class Route extends BaseEntity implements Arrayable, RouteContract, Mappable
 {
@@ -76,6 +78,7 @@ final class Route extends BaseEntity implements Arrayable, RouteContract, Mappab
     {
         return Str::of($this->route->uri())
             ->after(Config::routesUri())
+            ->replace('?', '')
             ->start('/');
     }
 
@@ -122,17 +125,15 @@ final class Route extends BaseEntity implements Arrayable, RouteContract, Mappab
 
     public function toArray()
     {
-        return array_filter([
+        return $this->filter([
             'summary'     => $this->summary(),
             'description' => $this->description(),
             'tags'        => $this->tags(),
             'operationId' => $this->getOperationId(),
-            'parameters'  => [],
+            'parameters'  => $this->parameters(),
             'responses'   => $this->responses(),
             'security'    => $this->security(),
-        ], static function ($value) {
-            return ! empty($value);
-        });
+        ]);
     }
 
     public function responses(): array
@@ -140,6 +141,23 @@ final class Route extends BaseEntity implements Arrayable, RouteContract, Mappab
         ksort($this->responses);
 
         return $this->responses;
+    }
+
+    public function parameters(): array
+    {
+        $method = Reflection::make($this->classname(), $this->action())->getReflection();
+
+        return collect($method->getParameters())
+            ->filter(function (ReflectionParameter $parameter) {
+                return ! is_subclass_of(optional($parameter->getClass())->getName(), SymfonyRequest::class);
+            })
+            ->values()
+            ->map(function (ReflectionParameter $parameter) {
+                $docblock = Reflection::make($this->classname(), $this->action())->getDocBlock();
+
+                return Parameter::make($parameter, $docblock);
+            })
+            ->toArray();
     }
 
     public function addResponse(Responsible $response)
