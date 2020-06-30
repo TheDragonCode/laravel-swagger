@@ -2,7 +2,7 @@
 
 namespace Helldar\LaravelSwagger\Entities;
 
-use Helldar\LaravelSwagger\Contracts\Mapped;
+use Helldar\LaravelSwagger\Contracts\Mappable;
 use Helldar\LaravelSwagger\Contracts\Responsible;
 use Helldar\LaravelSwagger\Contracts\Route as RouteContract;
 use Helldar\LaravelSwagger\Facades\Config;
@@ -14,7 +14,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Route as RouteCollection;
 use Illuminate\Support\Str;
 
-final class Route implements Arrayable, RouteContract, Mapped
+final class Route implements Arrayable, RouteContract, Mappable
 {
     protected $route;
 

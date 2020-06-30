@@ -4,7 +4,7 @@ namespace Helldar\LaravelSwagger\Contracts;
 
 use Illuminate\Support\Collection;
 
-interface Mapped
+interface Mappable
 {
     public function mapped(): Collection;
 }
