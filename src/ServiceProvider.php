@@ -3,7 +3,7 @@
 namespace Helldar\LaravelSwagger;
 
 use Helldar\LaravelSwagger\Commands\Generate;
-use Helldar\LaravelSwagger\Support\Config;
+use Helldar\LaravelSwagger\Facades\Config;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 
 final class ServiceProvider extends BaseServiceProvider
@@ -28,17 +28,17 @@ final class ServiceProvider extends BaseServiceProvider
 
     protected function bootPublishes(): void
     {
-        $key = Config::KEY;
+        $filename = Config::file();
 
         $this->publishes([
-            __DIR__ . "/../config/{$key}.php" => $this->app->configPath("{$key}.php"),
+            __DIR__ . '/../config/' . $filename => $this->app->configPath($filename),
         ], 'config');
     }
 
     protected function registerConfig()
     {
-        $key = Config::KEY;
+        $filename = Config::file();
 
-        $this->mergeConfigFrom(__DIR__ . "/../config/{$key}.php", $key);
+        $this->mergeConfigFrom(__DIR__ . "/../config/" . $filename, Config::key());
     }
 }

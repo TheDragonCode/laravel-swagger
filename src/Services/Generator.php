@@ -48,9 +48,7 @@ final class Generator
 
     protected function setSecuritySchemes(): self
     {
-        $schemes = Config::get('security_schemes');
-
-        foreach ($schemes as $name => $schema) {
+        foreach (Config::securitySchemes() as $name => $schema) {
             $this->swagger->addComponent(
                 SecuritySchema::make($name, $schema)
             );

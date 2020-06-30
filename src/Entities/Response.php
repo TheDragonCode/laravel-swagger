@@ -6,7 +6,7 @@ use Helldar\LaravelSwagger\Contracts\Responsible;
 use Helldar\LaravelSwagger\Traits\Makeable;
 use Illuminate\Contracts\Support\Arrayable;
 
-final class Response implements Responsible, Arrayable
+final class Response extends BaseEntity implements Responsible, Arrayable
 {
     use Makeable;
 

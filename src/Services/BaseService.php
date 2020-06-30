@@ -12,13 +12,6 @@ abstract class BaseService implements Grabeable
     /** @var \DirectoryIterator */
     protected $files;
 
-    /**
-     * @param  string  $path
-     *
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
-     *
-     * @return string
-     */
     protected function appPath(string $path = '')
     {
         return $this->app()->basePath(

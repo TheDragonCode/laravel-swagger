@@ -26,11 +26,11 @@ final class Generator
 
     protected function path(): string
     {
-        return Config::get('path');
+        return Config::path();
     }
 
     protected function filename(): string
     {
-        return Config::get('filename', 'api-doc');
+        return Config::filename();
     }
 }

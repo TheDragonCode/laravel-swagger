@@ -8,13 +8,13 @@ use Illuminate\Support\Arr;
 
 final class Responses
 {
-    protected $items = [];
+    protected static $items = [];
 
     public function get(): array
     {
-        if (! $this->items) {
-            foreach ($this->getClasses() as $code => $item) {
-                $this->items[$code] = Response::make(
+        if (! static::$items) {
+            foreach ($this->getExceptionClasses() as $code => $item) {
+                static::$items[$code] = Response::make(
                     $code,
                     Arr::get($item, 'name'),
                     Arr::get($item, 'description')
@@ -22,11 +22,11 @@ final class Responses
             }
         }
 
-        return $this->items;
+        return static::$items;
     }
 
-    protected function getClasses(): array
+    protected function getExceptionClasses(): array
     {
-        return Config::get('exceptions', []);
+        return Config::exceptions();
     }
 }

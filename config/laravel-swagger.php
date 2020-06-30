@@ -4,11 +4,58 @@ use Illuminate\Foundation\Http\Exceptions\MaintenanceModeException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 return [
+    /*
+     * Documentation title.
+     */
+
     'title' => env('APP_NAME'),
+
+    /*
+     * Documentation version.
+     */
 
     'version' => '1.0',
 
-    'routes' => 'api/',
+    /*
+     * The following are the options for defining routes for generating documentation.
+     */
+
+    'routes' => [
+
+        /*
+         * Add routes to the documentation starting with the specified path.
+         *
+         * To add all routes, specify '*'.
+         */
+
+        'uri' => 'api/',
+
+        /*
+         * Rules for hiding routes from a selection.
+         */
+
+        'hide' => [
+
+            /*
+             * Hide the following methods when generating documentation.
+             */
+            'methods' => ['head'],
+
+            /*
+             * Hide routes that meet the following conditions:
+             */
+
+            'matching' => [
+                '_debugbar',
+                '_ignition',
+                'telescope',
+            ],
+        ],
+    ],
+
+    /*
+     * List of server addresses on which API is located.
+     */
 
     'servers' => [
         [
@@ -17,6 +64,10 @@ return [
             'description' => env('APP_NAME'),
         ],
     ],
+
+    /*
+     * List of security schemes.
+     */
 
     'security_schemes' => [
         /*
@@ -62,12 +113,9 @@ return [
         */
     ],
 
-    'tags' => [
-        [
-            'name'        => 'Example',
-            'description' => 'Here is the tag description',
-        ],
-    ],
+    /*
+     * A list of possible exceptions that occur during the operation of each route.
+     */
 
     'exceptions' => [
         405 => [
@@ -81,17 +129,26 @@ return [
         ],
     ],
 
+    /*
+     * The path to save the generated documentation files.
+     */
+
     'path' => storage_path('app/private'),
 
+    /*
+     * The prefix of the file name when generating documentation.
+     *
+     * The final file name will be "X-Y.Z", where:
+     *   X - file name prefix
+     *   Y - API version
+     *   Z - file extension (json or yaml).
+     *
+     * For example:
+     *   filename = api
+     *   version = 1.2
+     *   // api-1.2.json
+     *   // api-1.2.yaml
+     */
+
     'filename' => 'api',
-
-    'hide' => [
-        'methods' => ['head'],
-
-        'matching' => [
-            '_debugbar*',
-            '_ignition*',
-            'telescope*',
-        ],
-    ],
 ];

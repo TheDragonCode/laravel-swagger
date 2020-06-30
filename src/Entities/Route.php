@@ -14,7 +14,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Route as RouteCollection;
 use Illuminate\Support\Str;
 
-final class Route implements Arrayable, RouteContract, Mappable
+final class Route extends BaseEntity implements Arrayable, RouteContract, Mappable
 {
     protected $route;
 
@@ -42,8 +42,8 @@ final class Route implements Arrayable, RouteContract, Mappable
      */
     public function map(RouteCollectionInterface $routes): Collection
     {
-        $matching = Config::get('hide.matching');
-        $base     = Str::of(Config::get('routes'))->finish('*');
+        $matching = Config::routesHideMatching();
+        $base     = Str::of(Config::routesUri())->finish('*');
 
         return collect($routes->getRoutes())
             ->filter(function (RouteInstance $route) use ($base, $matching) {
@@ -74,16 +74,14 @@ final class Route implements Arrayable, RouteContract, Mappable
 
     public function uri(): string
     {
-        $base = Config::get('routes');
-
         return Str::of($this->route->uri())
-            ->after($base)
+            ->after(Config::routesUri())
             ->start('/');
     }
 
     public function methods(): array
     {
-        $hide = Config::get('hide.methods');
+        $hide = Config::routesHideMethods();
 
         return collect($this->route->methods())
             ->filter(function ($method) use ($hide) {
@@ -108,7 +106,7 @@ final class Route implements Arrayable, RouteContract, Mappable
 
     public function security(): array
     {
-        $schemes = Config::get('security_schemes');
+        $schemes = Config::securitySchemes();
         $items   = [];
 
         foreach ($this->middleware() as $item) {
@@ -158,12 +156,7 @@ final class Route implements Arrayable, RouteContract, Mappable
         return $this;
     }
 
-    protected function getOperationId(): string
-    {
-        return Str::random();
-    }
-
-    protected function tags(): array
+    public function tags(): array
     {
         $base_namespace = 'App\Http\Controllers';
         $controller     = Arr::get($this->route->action, 'controller');
@@ -181,8 +174,13 @@ final class Route implements Arrayable, RouteContract, Mappable
                     ->replace('-', ' ')
                     ->trim()
                     ->title()
-                    ->plural();
+                    ->singular();
             })
             ->toArray();
+    }
+
+    protected function getOperationId(): string
+    {
+        return Str::random();
     }
 }

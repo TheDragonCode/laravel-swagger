@@ -4,34 +4,38 @@ namespace Helldar\LaravelSwagger\Services;
 
 use Helldar\LaravelSwagger\Contracts\Route;
 use Helldar\LaravelSwagger\Contracts\Schema;
+use Helldar\LaravelSwagger\Entities\BaseEntity;
+use Helldar\LaravelSwagger\Entities\Tag;
 use Helldar\LaravelSwagger\Facades\Config;
 use Helldar\LaravelSwagger\Facades\Responses as ResponseHelper;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Stringable;
 
 final class Swagger implements Arrayable, Jsonable
 {
     const OPENAPI = '3.0.0';
 
+    /** @var \Helldar\LaravelSwagger\Entities\Route[][] */
     protected $paths = [];
 
     protected $components = [];
 
     public function name(): string
     {
-        return Config::get('title');
+        return Config::title();
     }
 
     public function version(): string
     {
-        return Config::get('version');
+        return Config::version();
     }
 
     public function servers(): array
     {
-        $servers = Config::get('servers', []);
+        $servers = Config::servers();
 
         if ($routes = trim($this->routes(), '/*')) {
             foreach ($servers as &$server) {
@@ -44,9 +48,19 @@ final class Swagger implements Arrayable, Jsonable
         return $servers;
     }
 
-    public function tags(): array
+    public function tags(array $tags = []): Collection
     {
-        return Config::get('tags', []);
+        foreach ($this->paths as $path) {
+            foreach ($path as $route) {
+                $tags = array_merge($tags, $route->tags());
+            }
+        }
+
+        return collect($tags)
+            ->unique()
+            ->filter()
+            ->values()
+            ->mapInto(Tag::class);
     }
 
     public function addRoute(Route $route)
@@ -87,7 +101,7 @@ final class Swagger implements Arrayable, Jsonable
 
     protected function routes(): string
     {
-        return Config::get('routes');
+        return Config::routesUri();
     }
 
     protected function process(array $array)
@@ -95,6 +109,10 @@ final class Swagger implements Arrayable, Jsonable
         return array_map(function ($item) {
             if ($item instanceof Arrayable) {
                 return $this->process($item->toArray());
+            }
+
+            if ($item instanceof BaseEntity) {
+                return $this->process((array) $item);
             }
 
             if (is_array($item)) {

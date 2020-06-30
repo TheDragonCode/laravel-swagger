@@ -8,7 +8,7 @@ use phpDocumentor\Reflection\DocBlockFactory;
 use ReflectionClass;
 use ReflectionMethod;
 
-final class Reflection
+final class Reflection extends BaseEntity
 {
     use Makeable;
 
