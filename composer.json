@@ -5,8 +5,8 @@
     "license": "MIT",
     "keywords": ["api", "laravel", "swagger"],
     "support": {
-        "issues": "https://github.com/andrey-helldar/swagger/issues",
-        "source": "https://github.com/andrey-helldar/swagger"
+        "issues": "https://github.com/andrey-helldar/laravel-swagger/issues",
+        "source": "https://github.com/andrey-helldar/laravel-swagger"
     },
     "authors": [
         {
