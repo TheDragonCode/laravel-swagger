@@ -17,6 +17,7 @@
     "require": {
         "php": "^7.2|^8.0",
         "ext-json": "*",
+        "ext-yaml": "*",
         "andrey-helldar/support": "^1.20",
         "illuminate/console": "^7.0",
         "illuminate/http": "^7.0",
