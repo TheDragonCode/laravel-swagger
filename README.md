@@ -11,7 +11,7 @@ Documentation generation for Swagger without OpenAPI
 
 1. Execute the command:
 ```
-composer require andrey-helldar/laravel-swagger:dev-master
+composer require andrey-helldar/laravel-swagger:dev-master --dev
 ```
 
 2. Use the `swagger:generate` command to generate documentation.
