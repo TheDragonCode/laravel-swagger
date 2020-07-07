@@ -2,28 +2,37 @@
 
 Documentation generation for Swagger without OpenAPI
 
-## Installation for dev
+## Installation
 
-1. Clone repository:
-```
-clone https://github.com/andrey-helldar/laravel-swagger.git
-```
+> Note:
+> In order for the composer to be able to install an unstable package, in the option "minimum-stability" of the file "composer.json" the value must be "dev".
 
-2. Add the following code to the `composer.json` file:
-```
-"repositories": [
-    {
-        "type": "path",
-        "url": "../andrey-helldar/laravel-swagger"
-    }
-]
-```
+### Laravel
 
-3. Execute the command:
+1. Execute the command:
 ```
 composer require andrey-helldar/laravel-swagger:dev-master
 ```
 
-> Note:
-> 
-> In order for the composer to be able to install an unstable package, in the option "minimum-stability" of the file "composer.json" the value must be "dev".
+2. Use the `swagger:generate` command to generate documentation.
+
+### Lumen
+
+1. Execute the command:
+```
+composer require andrey-helldar/laravel-swagger:dev-master
+```
+
+2. Copy the configuration file to the [config](config/laravel-swagger.php) folder.
+
+3. Register the configuration file in `bootstrap/app.php`:
+```
+$app->configure('laravel-swagger');
+```
+
+4. Register the service provider in `bootstrap/app.php`:
+```
+$app->register(Helldar\LaravelSwagger\ServiceProvider::class);
+```
+
+5. Use the `swagger:generate` command to generate documentation.
