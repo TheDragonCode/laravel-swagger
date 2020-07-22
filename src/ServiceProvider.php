@@ -28,7 +28,7 @@ final class ServiceProvider extends BaseServiceProvider
 
     protected function bootPublishes(): void
     {
-        $filename = Config::file();
+        $filename = $this->configFilename();
 
         $this->publishes([
             __DIR__ . '/../config/' . $filename => $this->app->configPath($filename),
@@ -37,8 +37,11 @@ final class ServiceProvider extends BaseServiceProvider
 
     protected function registerConfig()
     {
-        $filename = Config::file();
+        $this->mergeConfigFrom(__DIR__ . "/../config/" . $this->configFilename(), Config::key());
+    }
 
-        $this->mergeConfigFrom(__DIR__ . "/../config/" . $filename, Config::key());
+    protected function configFilename(): string
+    {
+        return Config::file();
     }
 }
