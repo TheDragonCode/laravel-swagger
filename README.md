@@ -20,7 +20,7 @@ composer require andrey-helldar/laravel-swagger:dev-master --dev
 
 1. Execute the command:
 ```
-composer require andrey-helldar/laravel-swagger:dev-master
+composer require andrey-helldar/laravel-swagger:dev-master --dev
 ```
 
 2. Copy the configuration file to the [config](config/laravel-swagger.php) folder.
