@@ -3,7 +3,7 @@
 namespace Helldar\LaravelSwagger\Services;
 
 use Helldar\LaravelSwagger\Entities\Route as RouteEntity;
-use Helldar\LaravelSwagger\Entities\SecuritySchema;
+use Helldar\LaravelSwagger\Entities\Schemas\SecuritySchema;
 use Helldar\LaravelSwagger\Exceptions\SwaggerException;
 use Helldar\LaravelSwagger\Facades\Config;
 use Helldar\LaravelSwagger\Facades\Route;

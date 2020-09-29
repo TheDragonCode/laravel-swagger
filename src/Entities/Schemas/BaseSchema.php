@@ -1,10 +1,11 @@
 <?php
 
-namespace Helldar\LaravelSwagger\Entities;
+namespace Helldar\LaravelSwagger\Entities\Schemas;
 
 use Helldar\LaravelSwagger\Contracts\Schema as SchemaContract;
+use Helldar\LaravelSwagger\Entities\BaseEntity;
 
-final class SecuritySchema extends BaseEntity implements SchemaContract
+abstract class BaseSchema extends BaseEntity implements SchemaContract
 {
     protected $name;
 
@@ -14,11 +15,6 @@ final class SecuritySchema extends BaseEntity implements SchemaContract
     {
         $this->name = $name;
         $this->data = $data;
-    }
-
-    public function type(): string
-    {
-        return 'securitySchemes';
     }
 
     public function name(): string

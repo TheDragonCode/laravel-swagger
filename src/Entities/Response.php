@@ -42,7 +42,11 @@ final class Response extends BaseEntity implements Responsible, Arrayable
     {
         return [
             'application/json' => [
-                'schema' => 'aaa',
+                'schema' => [
+                    'code'=>$this->code,
+                    'class'=>$this->class,
+                    'desc'=>$this->description
+                ],
             ],
         ];
     }

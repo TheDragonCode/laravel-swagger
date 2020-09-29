@@ -5,6 +5,7 @@ namespace Helldar\LaravelSwagger\Services;
 use Helldar\LaravelSwagger\Contracts\Route;
 use Helldar\LaravelSwagger\Contracts\Schema;
 use Helldar\LaravelSwagger\Entities\BaseEntity;
+use Helldar\LaravelSwagger\Entities\Schemas\Schema as SchemaEntity;
 use Helldar\LaravelSwagger\Entities\Tag;
 use Helldar\LaravelSwagger\Facades\Config;
 use Helldar\LaravelSwagger\Facades\Responses as ResponseHelper;
@@ -65,6 +66,8 @@ final class Swagger implements Arrayable, Jsonable
 
     public function addRoute(Route $route)
     {
+        $this->addComponentFromRoute($route);
+
         foreach ($route->methods() as $method) {
             $this->paths[$route->uri()][$method] = $route->addResponses(ResponseHelper::get());
         }
@@ -72,7 +75,14 @@ final class Swagger implements Arrayable, Jsonable
 
     public function addComponent(Schema $schema): self
     {
-        $this->components[$schema->type()][$schema->name()] = $schema;
+        $this->pushComponent($schema->type(), $schema->name(), $schema);
+
+        return $this;
+    }
+
+    public function pushComponent(string $type, string $name, Schema $schema): self
+    {
+        $this->components[$type][$name] = $schema;
 
         return $this;
     }
@@ -97,6 +107,16 @@ final class Swagger implements Arrayable, Jsonable
     public function toJson($options = 0)
     {
         return json_encode($this->toArray(), $options);
+    }
+
+    protected function addComponentFromRoute(Route $route): void
+    {
+        $schema = new SchemaEntity(
+            $route->classname(),
+            ['aaa']
+        );
+
+        $this->addComponent($schema);
     }
 
     protected function routes(): string

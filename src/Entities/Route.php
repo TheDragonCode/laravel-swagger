@@ -45,14 +45,15 @@ final class Route extends BaseEntity implements Arrayable, RouteContract, Mappab
     public function map(RouteCollectionInterface $routes): Collection
     {
         $matching = Config::routesHideMatching();
-        $base     = Str::of(Config::routesUri())->finish('*');
+        $base     = Str::finish(Config::routesUri(), '*');
 
         return collect($routes->getRoutes())
             ->filter(function (RouteInstance $route) use ($base, $matching) {
-                $matched = Str::is($matching, $route->uri());
-                $allow   = Str::is($base, $route->uri());
+                $matched    = Str::is($matching, $route->uri());
+                $allow      = Str::is($base, $route->uri());
+                $is_closure = Str::is('Closure', $route->getActionMethod());
 
-                return ! $matched && $allow;
+                return ! $is_closure && ! $matched && $allow;
             })
             ->mapInto(static::class);
     }

@@ -3,11 +3,11 @@
 namespace Helldar\LaravelSwagger\Services;
 
 use DirectoryIterator;
-use Helldar\LaravelSwagger\Contracts\Grabeable;
+use Helldar\LaravelSwagger\Contracts\Handleable;
 use Helldar\Support\Facades\Directory;
 use Illuminate\Container\Container;
 
-abstract class BaseService implements Grabeable
+abstract class BaseService implements Handleable
 {
     /** @var \DirectoryIterator */
     protected $files;

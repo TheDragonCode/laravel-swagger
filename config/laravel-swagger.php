@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Foundation\Http\Exceptions\MaintenanceModeException;
+use App\Http\Middleware\PreventRequestsDuringMaintenance;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 return [
@@ -140,7 +140,7 @@ return [
         ],
 
         503 => [
-            'name'        => MaintenanceModeException::class,
+            'name'        => PreventRequestsDuringMaintenance::class,
             'description' => 'Maintenance Mode',
         ],
     ],
