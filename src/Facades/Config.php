@@ -2,31 +2,24 @@
 
 namespace Helldar\LaravelSwagger\Facades;
 
-use Helldar\LaravelSwagger\Support\Config as ConfigSupport;
+use Helldar\LaravelSwagger\Services\Config as Service;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @method static mixed get($key, $default = null)
- *
  * @method static string title()
  * @method static string version()
+ * @method static string path(string $path = null)
+ * @method static string filename(string $extension = null)
+ * @method static array exceptions()
+ *
  * @method static string routesUri()
  * @method static array routesHideMethods()
  * @method static array routesHideMatching()
- * @method static array servers()
- * @method static array securitySchemes()
- * @method static array securityBase()
- * @method static array exceptions()
- * @method static string path()
- * @method static string filename()
- *
- * @method static string key()
- * @method static string file()
  */
 final class Config extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return ConfigSupport::class;
+        return Service::class;
     }
 }

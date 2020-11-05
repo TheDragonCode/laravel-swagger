@@ -162,8 +162,8 @@ return [
      * For example:
      *   filename = api
      *   version = 1.2
-     *   // api-1.2.json
-     *   // api-1.2.yaml
+     *   // api.1.2.json
+     *   // api.1.2.yaml
      */
 
     'filename' => 'api',
