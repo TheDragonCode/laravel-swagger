@@ -8,7 +8,7 @@ final class Config
 
     public function title(): string
     {
-        return $this->get('title');
+        return $this->get('title') ?: 'Laravel';
     }
 
     public function version(): string
@@ -18,7 +18,12 @@ final class Config
 
     public function exceptions(): array
     {
-        return $this->get('exceptions');
+        return $this->get('exceptions', []);
+    }
+
+    public function servers(): array
+    {
+        return $this->get('servers', []);
     }
 
     public function path(string $path = null): string

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e5ea5baf89f6e52b92a2504a2362da2a",
+    "content-hash": "fd3a7fa18a590b3b3ef7007c5110312c",
     "packages": [
         {
             "name": "andrey-helldar/laravel-routes-core",
@@ -72,16 +72,16 @@
         },
         {
             "name": "andrey-helldar/support",
-            "version": "v1.22.0",
+            "version": "v1.23.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/andrey-helldar/support.git",
-                "reference": "ccd201a7833bb52c14d2ee644ce6cfd434bd9ed8"
+                "reference": "e8259f4b203c737e4fc5e53c4990766438d527ad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/andrey-helldar/support/zipball/ccd201a7833bb52c14d2ee644ce6cfd434bd9ed8",
-                "reference": "ccd201a7833bb52c14d2ee644ce6cfd434bd9ed8",
+                "url": "https://api.github.com/repos/andrey-helldar/support/zipball/e8259f4b203c737e4fc5e53c4990766438d527ad",
+                "reference": "e8259f4b203c737e4fc5e53c4990766438d527ad",
                 "shasum": ""
             },
             "require": {
@@ -93,7 +93,7 @@
             },
             "require-dev": {
                 "ext-bcmath": "*",
-                "phpunit/phpunit": "^8.0|^9.0"
+                "phpunit/phpunit": "^9.0"
             },
             "suggest": {
                 "andrey-helldar/laravel-support": "Various helper files for the Laravel and Lumen frameworks",
@@ -152,7 +152,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2020-10-22T09:59:48+00:00"
+            "time": "2020-11-05T12:50:42+00:00"
         },
         {
             "name": "brick/math",

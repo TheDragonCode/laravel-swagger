@@ -3,8 +3,10 @@
 namespace Helldar\LaravelSwagger\Commands;
 
 use Helldar\LaravelRoutesCore\Facades\Routes;
+use Helldar\LaravelSwagger\Contracts\Swagger as SwaggerContract;
 use Helldar\LaravelSwagger\Facades\Config;
 use Helldar\LaravelSwagger\Facades\Files;
+use Helldar\LaravelSwagger\Models\Path;
 use Helldar\LaravelSwagger\Services\Swagger;
 use Illuminate\Console\Command;
 
@@ -14,45 +16,64 @@ final class Generate extends Command
 
     protected $description = 'Generating documentation for Swagger';
 
-    protected $routes = [];
-
-    protected $requests = [];
-
-    protected $exceptions = [];
-
-    /** @var \Helldar\LaravelSwagger\Contracts\Swagger */
-    protected $swagger;
-
     public function handle(Swagger $swagger)
     {
-        $this->swagger = $swagger;
-
         $this->info('Collecting routes...');
-        $this->routes();
+        $routes = $this->routes();
 
         $this->info('Collecting requests...');
-        $this->requests();
+        $requests = $this->requests();
+
+        $this->info('Collecting exceptions...');
+        $exceptions = $this->exceptions();
+
+        $this->info('Filling data...');
+        $this->fill($swagger, $routes, $requests, $exceptions);
 
         $this->info('Storing data...');
-        Files::swagger($this->swagger)->storeAll();
+        $this->store($swagger);
 
         $this->info('Documentation generated successfully.');
     }
 
-    protected function routes(): void
+    /**
+     * @return \Helldar\LaravelRoutesCore\Models\Route[]
+     */
+    protected function routes(): array
     {
-        $this->routes = Routes::hideMethods(Config::routesHideMethods())
+        return Routes::hideMethods(Config::routesHideMethods())
             ->hideMatching(Config::routesHideMatching())
             ->get();
     }
 
-    protected function requests(): void
+    protected function requests(): array
     {
-
+        return [];
     }
 
-    protected function exceptions(): void
+    protected function exceptions(): array
     {
-        $this->exceptions = Config::exceptions();
+        return Config::exceptions();
+    }
+
+    protected function store(SwaggerContract $swagger): void
+    {
+        Files::swagger($swagger)->storeAll();
+    }
+
+    /**
+     * @param  \Helldar\LaravelSwagger\Contracts\Swagger  $swagger
+     * @param  \Helldar\LaravelRoutesCore\Models\Route[]  $routes
+     * @param  array  $requests
+     * @param  array  $exceptions
+     */
+    protected function fill(SwaggerContract $swagger, array $routes, array $requests, array $exceptions): void
+    {
+        foreach ($routes as $route) {
+            $path = new Path($route);
+
+            $swagger
+                ->addPath($path);
+        }
     }
 }

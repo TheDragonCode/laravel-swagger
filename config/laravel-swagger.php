@@ -46,9 +46,9 @@ return [
              */
 
             'matching' => [
-                '_debugbar',
-                '_ignition',
-                'telescope',
+                '#^_debugbar#',
+                '#^_ignition#',
+                '#^telescope#',
             ],
         ],
     ],

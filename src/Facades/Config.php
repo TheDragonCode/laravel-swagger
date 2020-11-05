@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static string path(string $path = null)
  * @method static string filename(string $extension = null)
  * @method static array exceptions()
+ * @method static array servers()
  *
  * @method static string routesUri()
  * @method static array routesHideMethods()

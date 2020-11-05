@@ -7,5 +7,5 @@ use Illuminate\Contracts\Support\Jsonable;
 
 interface Swagger extends Arrayable, Jsonable
 {
-
+    public function addPath(Pathable $path): self;
 }
