@@ -8,7 +8,7 @@ return [
      * Documentation title.
      */
 
-    'title' => env('APP_NAME'),
+    'title' => env('APP_NAME', 'Laravel'),
 
     /*
      * Documentation version.
@@ -134,13 +134,13 @@ return [
      */
 
     'exceptions' => [
-        405 => [
-            'name'        => MethodNotAllowedHttpException::class,
+        MethodNotAllowedHttpException::class => [
+            'code'        => 405,
             'description' => 'Method Not Allowed',
         ],
 
-        503 => [
-            'name'        => PreventRequestsDuringMaintenance::class,
+        PreventRequestsDuringMaintenance::class => [
+            'code'        => 503,
             'description' => 'Maintenance Mode',
         ],
     ],

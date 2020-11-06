@@ -6,7 +6,6 @@ use Helldar\LaravelSwagger\Concerns\Arrayable;
 use Helldar\LaravelSwagger\Contracts\Pathable;
 use Helldar\LaravelSwagger\Contracts\Swagger as Contract;
 use Helldar\LaravelSwagger\Facades\Config as ConfigFacade;
-use Helldar\LaravelSwagger\Models\Info;
 use Helldar\LaravelSwagger\Models\Server;
 
 final class Swagger implements Contract
@@ -24,10 +23,15 @@ final class Swagger implements Contract
 
     protected $paths = [];
 
+    protected $version;
+
     public function toArray()
     {
         return $this->convertToArray(array_merge_recursive($this->data, [
-            'info'    => $this->info(),
+            'info'    => [
+                'title'   => $this->title(),
+                'version' => $this->version,
+            ],
             'servers' => $this->servers(),
             'paths'   => $this->paths(),
         ]));
@@ -45,9 +49,11 @@ final class Swagger implements Contract
         return $this;
     }
 
-    protected function info(): Info
+    public function setVersion(string $version): Contract
     {
-        return new Info();
+        $this->version = $version;
+
+        return $this;
     }
 
     protected function servers(): array
@@ -60,5 +66,10 @@ final class Swagger implements Contract
     protected function paths(): array
     {
         return $this->paths;
+    }
+
+    protected function title(): string
+    {
+        return ConfigFacade::title();
     }
 }

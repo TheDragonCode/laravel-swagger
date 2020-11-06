@@ -4,24 +4,24 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fd3a7fa18a590b3b3ef7007c5110312c",
+    "content-hash": "b76a0d6d4c09298b6b30f3964a998409",
     "packages": [
         {
             "name": "andrey-helldar/laravel-routes-core",
-            "version": "v1.0.0",
+            "version": "v1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/andrey-helldar/laravel-routes-core.git",
-                "reference": "3d0d49f84a4d2be28845e407ff2d1ac72561c4fc"
+                "reference": "318b8607b00200fb5e0197a0abcd5b2a8f3bebc8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/andrey-helldar/laravel-routes-core/zipball/3d0d49f84a4d2be28845e407ff2d1ac72561c4fc",
-                "reference": "3d0d49f84a4d2be28845e407ff2d1ac72561c4fc",
+                "url": "https://api.github.com/repos/andrey-helldar/laravel-routes-core/zipball/318b8607b00200fb5e0197a0abcd5b2a8f3bebc8",
+                "reference": "318b8607b00200fb5e0197a0abcd5b2a8f3bebc8",
                 "shasum": ""
             },
             "require": {
-                "andrey-helldar/support": "^1.22",
+                "andrey-helldar/support": "^1.24",
                 "doctrine/annotations": "^1.0",
                 "illuminate/routing": "^5.0|^6.0|^7.0|^8.0",
                 "illuminate/support": "^5.0|^6.0|^7.0|^8.0",
@@ -68,20 +68,20 @@
                     "type": "custom"
                 }
             ],
-            "time": "2020-11-05T14:10:01+00:00"
+            "time": "2020-11-06T13:30:54+00:00"
         },
         {
             "name": "andrey-helldar/support",
-            "version": "v1.23.0",
+            "version": "v1.24.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/andrey-helldar/support.git",
-                "reference": "e8259f4b203c737e4fc5e53c4990766438d527ad"
+                "reference": "158cca57e0a11432151b5da17c92053c61f5e93c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/andrey-helldar/support/zipball/e8259f4b203c737e4fc5e53c4990766438d527ad",
-                "reference": "e8259f4b203c737e4fc5e53c4990766438d527ad",
+                "url": "https://api.github.com/repos/andrey-helldar/support/zipball/158cca57e0a11432151b5da17c92053c61f5e93c",
+                "reference": "158cca57e0a11432151b5da17c92053c61f5e93c",
                 "shasum": ""
             },
             "require": {
@@ -152,7 +152,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2020-11-05T12:50:42+00:00"
+            "time": "2020-11-06T11:56:55+00:00"
         },
         {
             "name": "brick/math",

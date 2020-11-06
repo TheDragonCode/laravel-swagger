@@ -3,21 +3,28 @@
 namespace Helldar\LaravelSwagger\Commands;
 
 use Helldar\LaravelRoutesCore\Facades\Routes;
+use Helldar\LaravelRoutesCore\Models\Route;
 use Helldar\LaravelSwagger\Contracts\Swagger as SwaggerContract;
 use Helldar\LaravelSwagger\Facades\Config;
 use Helldar\LaravelSwagger\Facades\Files;
 use Helldar\LaravelSwagger\Models\Path;
 use Helldar\LaravelSwagger\Services\Swagger;
 use Illuminate\Console\Command;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 final class Generate extends Command
 {
-    protected $signature = 'swagger:generate';
+    protected $signature = 'swagger:generate '
+    . ' {--ver=}'
+    . ' {--uri=}';
 
     protected $description = 'Generating documentation for Swagger';
 
     public function handle(Swagger $swagger)
     {
+        $swagger->setVersion($this->version());
+
         $this->info('Collecting routes...');
         $routes = $this->routes();
 
@@ -37,13 +44,13 @@ final class Generate extends Command
     }
 
     /**
-     * @return \Helldar\LaravelRoutesCore\Models\Route[]
+     * @return \Illuminate\Support\Collection|\Helldar\LaravelRoutesCore\Models\Route[]
      */
-    protected function routes(): array
+    protected function routes(): Collection
     {
-        return Routes::hideMethods(Config::routesHideMethods())
-            ->hideMatching(Config::routesHideMatching())
-            ->get();
+        return Routes::setHideMethods(Config::routesHideMethods())
+            ->setHideMatching(Config::routesHideMatching())
+            ->collection();
     }
 
     protected function requests(): array
@@ -63,17 +70,32 @@ final class Generate extends Command
 
     /**
      * @param  \Helldar\LaravelSwagger\Contracts\Swagger  $swagger
-     * @param  \Helldar\LaravelRoutesCore\Models\Route[]  $routes
+     * @param  \Illuminate\Support\Collection|\Helldar\LaravelRoutesCore\Models\Route[]  $routes
      * @param  array  $requests
      * @param  array  $exceptions
      */
-    protected function fill(SwaggerContract $swagger, array $routes, array $requests, array $exceptions): void
+    protected function fill(SwaggerContract $swagger, Collection $routes, array $requests, array $exceptions): void
     {
-        foreach ($routes as $route) {
-            $path = new Path($route);
+        $uri = ltrim($this->uri(), '/');
 
-            $swagger
-                ->addPath($path);
-        }
+        $routes->each(static function (Route $route) use ($swagger, $uri) {
+            $path = ltrim($route->getPath(), '/');
+
+            if (Str::startsWith($path, $uri)) {
+                $swagger->addPath(
+                    new Path($route, $uri)
+                );
+            }
+        });
+    }
+
+    protected function version(): string
+    {
+        return $this->option('ver') ?: Config::version();
+    }
+
+    protected function uri(): string
+    {
+        return $this->option('uri') ?: Config::routesUri();
     }
 }
