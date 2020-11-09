@@ -24,9 +24,10 @@ final class Path extends BaseModel implements Pathable
     public function toArray()
     {
         $result = [];
+        $data   = $this->get();
 
         foreach ($this->route->getMethods() as $method) {
-            $result[$method] = $this->get();
+            $result[$method] = $data;
         }
 
         return [$this->path() => $result];
@@ -38,8 +39,8 @@ final class Path extends BaseModel implements Pathable
             'tags'        => [],
             'summary'     => $this->summary(),
             'description' => $this->description(),
-            'operationId' => null,
-            'parameters'  => [],
+            'operationId' => $this->operationId(),
+            'parameters'  => $this->parameters(),
             'responses'   => [],
         ];
     }
@@ -66,5 +67,15 @@ final class Path extends BaseModel implements Pathable
         return Annotation::description(
             $this->route->getAction()
         );
+    }
+
+    protected function operationId(): string
+    {
+        return md5($this->route->getAction());
+    }
+
+    protected function parameters(): Parameter
+    {
+        return new Parameter($this->route->getPath());
     }
 }

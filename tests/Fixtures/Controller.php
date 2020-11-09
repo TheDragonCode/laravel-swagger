@@ -13,7 +13,7 @@ final class Controller extends BaseController
      *
      * @deprecated
      *
-     * @return \Illuminate\Http\Resources\Json\JsonResource
+     * @return void
      */
     public function qwe()
     {
@@ -23,9 +23,9 @@ final class Controller extends BaseController
     /**
      * It's a summary.
      *
-     * It's a description
+     * It's a description.
      *
-     * @param  string  $foo  Description for the parameter
+     * @param  string  $foo  Description for the parameter.
      */
     public function rty(string $foo)
     {
@@ -33,7 +33,7 @@ final class Controller extends BaseController
     }
 
     /**
-     * @param  \Tests\fixtures\Request  $request
+     * @param  \Tests\Fixtures\Request  $request
      * @param  string  $foo
      * @param  string|null  $bar
      */
