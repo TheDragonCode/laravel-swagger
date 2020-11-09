@@ -7,11 +7,11 @@ use Illuminate\Support\Str;
 
 final class Parameter extends BaseModel
 {
-    protected $value;
+    protected $values;
 
-    public function __construct(string $parameter)
+    public function __construct(string $parameters)
     {
-        $this->value = $parameter;
+        $this->values = $parameters;
     }
 
     public function toArray()
@@ -27,7 +27,7 @@ final class Parameter extends BaseModel
 
     protected function matches(): array
     {
-        preg_match_all('/({[^}]+})/', $this->value, $matches);
+        preg_match_all('/({[^}]+})/', $this->values, $matches);
 
         return Arr::first($matches);
     }
