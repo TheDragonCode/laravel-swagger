@@ -2,42 +2,38 @@
 
 namespace Helldar\LaravelSwagger\Models;
 
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 final class Parameter extends BaseModel
 {
-    protected $values;
+    protected $parameter;
 
-    public function __construct(string $parameters)
+    public function __construct(string $parameter)
     {
-        $this->values = $parameters;
+        $this->parameter = $parameter;
     }
 
     public function toArray()
     {
-        $result = [];
-
-        foreach ($this->matches() as $match) {
-            $result[] = $this->parse($match);
-        }
-
-        return $result;
-    }
-
-    protected function matches(): array
-    {
-        preg_match_all('/({[^}]+})/', $this->values, $matches);
-
-        return Arr::first($matches);
-    }
-
-    protected function parse(string $value)
-    {
         return [
-            'name'     => trim($value, '{}?'),
-            'in'       => 'path',
-            'required' => ! Str::contains($value, '?'),
+            'name'     => $this->name(),
+            'in'       => $this->in(),
+            'required' => $this->required(),
         ];
+    }
+
+    protected function name(): string
+    {
+        return trim($this->parameter, '{}?');
+    }
+
+    protected function in(): string
+    {
+        return 'path';
+    }
+
+    protected function required(): bool
+    {
+        return ! Str::contains($this->parameter, '?');
     }
 }

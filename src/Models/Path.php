@@ -74,8 +74,8 @@ final class Path extends BaseModel implements Pathable
         return md5($this->route->getAction());
     }
 
-    protected function parameters(): Parameter
+    protected function parameters(): Parameters
     {
-        return new Parameter($this->route->getPath());
+        return Parameters::make($this->route->getPath());
     }
 }

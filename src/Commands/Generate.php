@@ -83,7 +83,7 @@ final class Generate extends Command
 
             if (Str::startsWith($path, $uri)) {
                 $swagger->addPath(
-                    new Path($route, $uri)
+                    Path::make($route, $uri)
                 );
             }
         });
