@@ -8,6 +8,8 @@ use Helldar\LaravelSwagger\Models\Properties\String_;
 
 final class Basic extends BaseSchema
 {
+    public $description = 'A set of basic fields for all schemes.';
+
     public function __construct()
     {
         $this->pushProperty(String_::class, 'slug');

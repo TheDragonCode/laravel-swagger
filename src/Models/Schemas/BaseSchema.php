@@ -44,4 +44,18 @@ abstract class BaseSchema implements Schema
             'type'        => $this->type,
         ];
     }
+
+    public function setDescription($description): Schema
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function setType(string $type): Schema
+    {
+        $this->type = $type;
+
+        return $this;
+    }
 }
