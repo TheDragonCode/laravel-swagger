@@ -41,7 +41,7 @@ final class Path extends BaseModel implements Pathable
             'description' => $this->description(),
             'operationId' => $this->operationId(),
             'parameters'  => $this->parameters(),
-            'responses'   => [],
+            'responses'   => $this->responses(),
         ];
     }
 
@@ -77,5 +77,10 @@ final class Path extends BaseModel implements Pathable
     protected function parameters(): Parameters
     {
         return Parameters::make($this->route->getPath());
+    }
+
+    protected function responses()
+    {
+        return $this->route->getExceptions();
     }
 }

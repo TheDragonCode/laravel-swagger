@@ -13,6 +13,10 @@ final class Controller extends BaseController
      *
      * @deprecated
      *
+     * @throw \Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException
+     * @throw \Exception
+     * @throw \Illuminate\Foundation\Http\Exceptions\MaintenanceModeException
+     *
      * @return void
      */
     public function qwe()
