@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c8ad0b8b300a087c9a447c9d26c1fa7e",
+    "content-hash": "5f4f587d4c4a666183925080fd59f15e",
     "packages": [
         {
             "name": "andrey-helldar/laravel-routes-core",
-            "version": "v1.4.2",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/andrey-helldar/laravel-routes-core.git",
-                "reference": "c547ec59689312d48656bb411132b6b4260ad3c5"
+                "reference": "b3bb966ea1ee32a20decaf739b8e167f7d0bdd5d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/andrey-helldar/laravel-routes-core/zipball/c547ec59689312d48656bb411132b6b4260ad3c5",
-                "reference": "c547ec59689312d48656bb411132b6b4260ad3c5",
+                "url": "https://api.github.com/repos/andrey-helldar/laravel-routes-core/zipball/b3bb966ea1ee32a20decaf739b8e167f7d0bdd5d",
+                "reference": "b3bb966ea1ee32a20decaf739b8e167f7d0bdd5d",
                 "shasum": ""
             },
             "require": {
@@ -32,6 +32,7 @@
                 "orchestra/testbench": "^3.4|^4.0|^5.0|^6.0",
                 "phpunit/phpunit": "^5.7|^6.0|^7.0|8.0|^9.0"
             },
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "thanks": [
@@ -88,7 +89,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2020-11-10T16:30:48+00:00"
+            "time": "2020-11-11T14:41:53+00:00"
         },
         {
             "name": "andrey-helldar/support",
@@ -524,6 +525,57 @@
                 "source": "https://github.com/egulias/EmailValidator/tree/2.1.23"
             },
             "time": "2020-10-31T20:37:35+00:00"
+        },
+        {
+            "name": "fakerphp/faker",
+            "version": "v1.10.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/FakerPHP/Faker.git",
+                "reference": "f2713a5016faaf6ffc60e9d456dedb5ebf0efcae"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/FakerPHP/Faker/zipball/f2713a5016faaf6ffc60e9d456dedb5ebf0efcae",
+                "reference": "f2713a5016faaf6ffc60e9d456dedb5ebf0efcae",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1 || ^8.0"
+            },
+            "conflict": {
+                "fzaninotto/faker": "*"
+            },
+            "require-dev": {
+                "ext-intl": "*",
+                "phpunit/phpunit": "^7.5.20 || ^8.5.8 || ^9.4.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Faker\\": "src/Faker/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "François Zaninotto"
+                }
+            ],
+            "description": "Faker is a PHP library that generates fake data for you.",
+            "keywords": [
+                "data",
+                "faker",
+                "fixtures"
+            ],
+            "support": {
+                "issues": "https://github.com/FakerPHP/Faker/issues",
+                "source": "https://github.com/FakerPHP/Faker/tree/v1.10.1"
+            },
+            "time": "2020-10-28T09:32:46+00:00"
         },
         {
             "name": "graham-campbell/result-type",
@@ -4486,57 +4538,6 @@
             "time": "2020-11-10T18:47:58+00:00"
         },
         {
-            "name": "fakerphp/faker",
-            "version": "v1.10.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/FakerPHP/Faker.git",
-                "reference": "f2713a5016faaf6ffc60e9d456dedb5ebf0efcae"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/FakerPHP/Faker/zipball/f2713a5016faaf6ffc60e9d456dedb5ebf0efcae",
-                "reference": "f2713a5016faaf6ffc60e9d456dedb5ebf0efcae",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.1 || ^8.0"
-            },
-            "conflict": {
-                "fzaninotto/faker": "*"
-            },
-            "require-dev": {
-                "ext-intl": "*",
-                "phpunit/phpunit": "^7.5.20 || ^8.5.8 || ^9.4.2"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Faker\\": "src/Faker/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "François Zaninotto"
-                }
-            ],
-            "description": "Faker is a PHP library that generates fake data for you.",
-            "keywords": [
-                "data",
-                "faker",
-                "fixtures"
-            ],
-            "support": {
-                "issues": "https://github.com/FakerPHP/Faker/issues",
-                "source": "https://github.com/FakerPHP/Faker/tree/v1.10.1"
-            },
-            "time": "2020-10-28T09:32:46+00:00"
-        },
-        {
             "name": "hamcrest/hamcrest-php",
             "version": "v2.0.1",
             "source": {
@@ -6537,7 +6538,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "andrey-helldar/laravel-routes-core": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

@@ -6,6 +6,7 @@ use Helldar\LaravelSwagger\Concerns\Arrayable;
 use Helldar\LaravelSwagger\Contracts\Pathable;
 use Helldar\LaravelSwagger\Contracts\Swagger as Contract;
 use Helldar\LaravelSwagger\Facades\Config as ConfigFacade;
+use Helldar\LaravelSwagger\Models\Schemas\Schemas;
 use Helldar\LaravelSwagger\Models\Server;
 
 final class Swagger implements Contract
@@ -13,12 +14,8 @@ final class Swagger implements Contract
     use Arrayable;
 
     protected $data = [
-        'openapi'    => '3.0.0',
-        'components' => [
-            'schemas'         => [],
-            'securitySchemes' => [],
-        ],
-        'tags'       => [],
+        'openapi' => '3.0.0',
+        'tags'    => [],
     ];
 
     protected $paths = [];
@@ -28,12 +25,16 @@ final class Swagger implements Contract
     public function toArray()
     {
         return $this->convertToArray(array_merge_recursive($this->data, [
-            'info'    => [
+            'info'       => [
                 'title'   => $this->title(),
                 'version' => $this->version,
             ],
-            'servers' => $this->servers(),
-            'paths'   => $this->paths(),
+            'servers'    => $this->servers(),
+            'paths'      => $this->paths(),
+            'components' => [
+                'schemas'         => $this->schemas(),
+                'securitySchemes' => [],
+            ],
         ]));
     }
 
@@ -71,5 +72,10 @@ final class Swagger implements Contract
     protected function title(): string
     {
         return ConfigFacade::title();
+    }
+
+    protected function schemas(): array
+    {
+        return Schemas::all();
     }
 }

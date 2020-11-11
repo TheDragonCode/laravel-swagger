@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Middleware\PreventRequestsDuringMaintenance;
+use Helldar\LaravelSwagger\Models\Properties\Integer_;
+use Helldar\LaravelSwagger\Models\Properties\String_;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 return [
@@ -167,4 +169,11 @@ return [
      */
 
     'filename' => 'api',
+
+    'schema' => [
+        'properties' => [
+            'foo' => String_::class,
+            'bar' => Integer_::class,
+        ],
+    ],
 ];

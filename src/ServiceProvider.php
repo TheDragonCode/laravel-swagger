@@ -3,6 +3,8 @@
 namespace Helldar\LaravelSwagger;
 
 use Helldar\LaravelSwagger\Commands\Generate;
+use Helldar\LaravelSwagger\Models\Schemas\Basic;
+use Helldar\LaravelSwagger\Models\Schemas\Schemas;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 
 final class ServiceProvider extends BaseServiceProvider
@@ -13,6 +15,8 @@ final class ServiceProvider extends BaseServiceProvider
     {
         $this->bootCommands();
         $this->bootPublishes();
+
+        $this->bootSchemas();
     }
 
     public function register(): void
@@ -44,5 +48,10 @@ final class ServiceProvider extends BaseServiceProvider
     protected function configFilename(): string
     {
         return $this->config_key . '.php';
+    }
+
+    protected function bootSchemas()
+    {
+        Schemas::add(new Basic());
     }
 }

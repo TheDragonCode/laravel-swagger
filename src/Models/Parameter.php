@@ -2,6 +2,7 @@
 
 namespace Helldar\LaravelSwagger\Models;
 
+use Helldar\LaravelSwagger\Models\Schemas\Reference;
 use Illuminate\Support\Str;
 
 final class Parameter extends BaseModel
@@ -19,6 +20,9 @@ final class Parameter extends BaseModel
             'name'     => $this->name(),
             'in'       => $this->in(),
             'required' => $this->required(),
+            'schema'   => [
+                '$ref' => $this->schemaReference(),
+            ],
         ];
     }
 
@@ -35,5 +39,10 @@ final class Parameter extends BaseModel
     protected function required(): bool
     {
         return ! Str::contains($this->parameter, '?');
+    }
+
+    protected function schemaReference(): string
+    {
+        return Reference::make()->basic($this->name());
     }
 }
