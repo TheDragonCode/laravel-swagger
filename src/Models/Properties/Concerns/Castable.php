@@ -17,7 +17,7 @@ trait Castable
 
     protected function hasCastablePrimitive(string $key): bool
     {
-        return array_key_exists($key, $this->casts);
+        return isset($this->casts[$key]);
     }
 
     /**
@@ -29,7 +29,7 @@ trait Castable
      */
     protected function getCast(string $key): string
     {
-        if (! isset($this->casts[$key])) {
+        if (! $this->hasCastablePrimitive($key)) {
             throw new UnknownPropertyNameException($key);
         }
 

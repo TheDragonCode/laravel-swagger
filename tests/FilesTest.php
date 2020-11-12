@@ -9,8 +9,10 @@ final class FilesTest extends TestCase
 {
     public function testStoreJson()
     {
+        $path = storage_path('app/private/api.1.0.json');
+
         $swagger = new Swagger();
-        $path    = storage_path('app/private/api.1.0.json');
+        $swagger->setVersion('1.0');
 
         Files::swagger($swagger)->storeJson();
 
@@ -21,8 +23,10 @@ final class FilesTest extends TestCase
 
     public function testStoreYaml()
     {
+        $path = storage_path('app/private/api.1.0.yaml');
+
         $swagger = new Swagger();
-        $path    = storage_path('app/private/api.1.0.yaml');
+        $swagger->setVersion('1.0');
 
         Files::swagger($swagger)->storeYaml();
 
