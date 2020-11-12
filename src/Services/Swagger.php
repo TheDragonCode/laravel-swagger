@@ -2,16 +2,16 @@
 
 namespace Helldar\LaravelSwagger\Services;
 
-use Helldar\LaravelSwagger\Concerns\Arrayable;
+use Helldar\LaravelSwagger\Concerns\EnumeratesValues;
 use Helldar\LaravelSwagger\Contracts\Pathable;
 use Helldar\LaravelSwagger\Contracts\Swagger as Contract;
 use Helldar\LaravelSwagger\Facades\Config as ConfigFacade;
-use Helldar\LaravelSwagger\Models\Schemas\Schemas;
 use Helldar\LaravelSwagger\Models\Server;
+use Helldar\LaravelSwagger\Support\Schemas;
 
 final class Swagger implements Contract
 {
-    use Arrayable;
+    use EnumeratesValues;
 
     protected $data = [
         'openapi' => '3.0.0',
@@ -22,32 +22,16 @@ final class Swagger implements Contract
 
     protected $version;
 
-    public function toArray()
-    {
-        return $this->convertToArray(array_merge_recursive($this->data, [
-            'info'       => [
-                'title'   => $this->title(),
-                'version' => $this->version,
-            ],
-            'servers'    => $this->servers(),
-            'paths'      => $this->paths(),
-            'components' => [
-                'schemas'         => $this->schemas(),
-                'securitySchemes' => [],
-            ],
-        ]));
-    }
-
-    public function toJson($options = 0)
-    {
-        return json_encode($this->toArray(), $options);
-    }
-
     public function addPath(Pathable $path): Contract
     {
         array_push($this->paths, $path);
 
         return $this;
+    }
+
+    public function getVersion(): string
+    {
+        return $this->version;
     }
 
     public function setVersion(string $version): Contract
@@ -57,14 +41,31 @@ final class Swagger implements Contract
         return $this;
     }
 
-    protected function servers(): array
+    public function toArray()
+    {
+        $info       = $this->getInfo();
+        $servers    = $this->getServers();
+        $paths      = $this->getPaths();
+        $components = $this->getComponents();
+
+        return $this->arrayable(
+            array_merge($this->data, compact('info', 'servers', 'paths', 'components'))
+        );
+    }
+
+    public function toJson($options = 0)
+    {
+        return json_encode($this->toArray(), $options);
+    }
+
+    protected function getServers(): array
     {
         return collect(ConfigFacade::servers())
             ->mapInto(Server::class)
             ->toArray();
     }
 
-    protected function paths(): array
+    protected function getPaths(): array
     {
         return $this->paths;
     }
@@ -74,8 +75,29 @@ final class Swagger implements Contract
         return ConfigFacade::title();
     }
 
-    protected function schemas(): array
+    protected function schemes(): array
     {
         return Schemas::all();
+    }
+
+    protected function securitySchemes(): array
+    {
+        return [];
+    }
+
+    protected function getInfo(): array
+    {
+        return [
+            'title'   => $this->title(),
+            'version' => $this->version,
+        ];
+    }
+
+    protected function getComponents(): array
+    {
+        return [
+            'schemas'         => $this->schemes(),
+            'securitySchemes' => $this->securitySchemes(),
+        ];
     }
 }

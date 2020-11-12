@@ -4,7 +4,10 @@ namespace Helldar\LaravelSwagger\Models\Properties\Concerns;
 
 use Faker\Factory;
 
-/** @mixin \Helldar\LaravelSwagger\Models\Properties\BaseProperty */
+/**
+ * @mixin \Helldar\LaravelSwagger\Models\Properties\BaseProperty
+ * @mixin \Helldar\LaravelSwagger\Models\BaseModel
+ */
 trait Faker
 {
     /** @var \Faker\Generator */
@@ -26,7 +29,7 @@ trait Faker
 
     protected function castFakeType()
     {
-        switch ($this->type) {
+        switch ($this->getAttribute('type')) {
             case 'integer':
             case 'double':
                 return $this->castFakeNumericFormat();

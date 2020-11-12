@@ -4,10 +4,12 @@ namespace Helldar\LaravelSwagger\Exceptions;
 
 final class UnknownSchemaException extends \Exception
 {
-    public function __construct(string $schema)
+    public function __construct($schema)
     {
+        $schema = is_string($schema) ? $schema : get_class($schema);
+
         parent::__construct(
-            'Unknown schema: ' . $schema
+            __('Unknown schema: :schema.', compact('schema'))
         );
     }
 }

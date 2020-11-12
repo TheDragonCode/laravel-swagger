@@ -5,57 +5,57 @@ namespace Helldar\LaravelSwagger\Models\Schemas;
 use Helldar\LaravelSwagger\Contracts\Schemas\Property;
 use Helldar\LaravelSwagger\Contracts\Schemas\Schema;
 use Helldar\LaravelSwagger\Exceptions\UnknownPropertyNameException;
+use Helldar\LaravelSwagger\Facades\Hash;
+use Helldar\LaravelSwagger\Models\BaseModel;
 use Illuminate\Support\Arr;
 
-abstract class BaseSchema implements Schema
+abstract class BaseSchema extends BaseModel implements Schema
 {
-    public $description;
-
-    public $properties = [];
-
-    public $type = 'object';
+    protected $attributes = [
+        'type' => 'object',
+    ];
 
     public function getKey(): string
     {
-        return md5(get_class($this));
+        return Hash::make($this);
     }
 
     public function addProperty(Property $property): Schema
     {
-        Arr::set($this->properties, $property->getKey(), $property);
+        $properties = $this->properties();
+
+        Arr::set($properties, $property->getKey(), $property);
+
+        $this->setAttribute('properties', $properties);
 
         return $this;
     }
 
     public function getProperty(string $key): Property
     {
-        if (! Arr::exists($this->properties, $key)) {
+        if (! Arr::exists($this->properties(), $key)) {
             throw new UnknownPropertyNameException($key);
         }
 
-        return Arr::get($this->properties, $key);
-    }
-
-    public function toArray()
-    {
-        return [
-            'description' => $this->description,
-            'properties'  => $this->properties,
-            'type'        => $this->type,
-        ];
+        return Arr::get($this->properties(), $key);
     }
 
     public function setDescription($description): Schema
     {
-        $this->description = $description;
+        $this->setAttribute('description', $description);
 
         return $this;
     }
 
     public function setType(string $type): Schema
     {
-        $this->type = $type;
+        $this->setAttribute('type', $type);
 
         return $this;
+    }
+
+    protected function properties(): array
+    {
+        return $this->getAttribute('properties', []);
     }
 }

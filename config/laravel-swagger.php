@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\PreventRequestsDuringMaintenance;
+use Helldar\LaravelSwagger\Models\Properties\Double_;
 use Helldar\LaravelSwagger\Models\Properties\Integer_;
 use Helldar\LaravelSwagger\Models\Properties\String_;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
@@ -172,6 +173,19 @@ return [
 
     'schema' => [
         'properties' => [
+
+            /*
+             * Basic properties.
+             */
+
+            'slug'    => String_::class,
+            'integer' => Integer_::class,
+            'double'  => Double_::class,
+
+            /*
+             * Your properties.
+             */
+
             'foo' => String_::class,
             'bar' => Integer_::class,
         ],

@@ -50,13 +50,13 @@ final class Files
 
     protected function path(string $extension): string
     {
-        return ConfigFacade::path(ConfigFacade::filename(
+        return ConfigFacade::fullPath(
             $this->version() . '.' . $extension
-        ));
+        );
     }
 
     protected function version(): string
     {
-        return ConfigFacade::version();
+        return $this->swagger->getVersion();
     }
 }

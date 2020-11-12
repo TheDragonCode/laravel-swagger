@@ -5,82 +5,101 @@ namespace Helldar\LaravelSwagger\Models;
 use Helldar\LaravelRoutesCore\Facades\Annotation;
 use Helldar\LaravelRoutesCore\Models\Route;
 use Helldar\LaravelSwagger\Contracts\Pathable;
+use Helldar\LaravelSwagger\Facades\Hash;
 use Illuminate\Support\Str;
 
 final class Path extends BaseModel implements Pathable
 {
-    /** @var \Helldar\LaravelRoutesCore\Models\Route */
-    protected $route;
-
-    /** @var string */
-    protected $start_uri;
+    protected $path;
 
     public function __construct(Route $route, string $start_uri)
     {
-        $this->route     = $route;
-        $this->start_uri = $start_uri;
+        $this->setPath($route, $start_uri);
+
+        $this->each(
+            $route->getMethods(),
+            $this->getData($route)
+        );
     }
 
     public function toArray()
     {
-        $result = [];
-        $data   = $this->get();
+        return [$this->path => $this->getAttributes()];
+    }
 
-        foreach ($this->route->getMethods() as $method) {
-            $result[$method] = $data;
+    protected function getData(Route $route): array
+    {
+        $tags        = $this->getTags($route);
+        $summary     = $this->getSummary($route);
+        $description = $this->getDescription($route);
+        $operationId = $this->getOperationId($route);
+        $parameters  = $this->getParameters($route);
+        $responses   = $this->getResponses($route);
+
+        return compact('tags', 'summary', 'description', 'operationId', 'parameters', 'responses');
+    }
+
+    protected function each(array $methods, array $data): void
+    {
+        foreach ($methods as $method) {
+            $this->setAttribute($method, $data);
         }
-
-        return [$this->path() => $result];
     }
 
-    protected function get()
+    protected function setPath(Route $route, string $start_uri): void
     {
-        return [
-            'tags'        => [],
-            'summary'     => $this->summary(),
-            'description' => $this->description(),
-            'operationId' => $this->operationId(),
-            'parameters'  => $this->parameters(),
-            'responses'   => $this->responses(),
-        ];
+        $uri = Str::after($route->getPath(), $start_uri);
+
+        $this->path = '/' . trim($uri, '/');
     }
 
-    protected function path(): string
+    protected function getTags(Route $route): array
     {
-        $uri = Str::after(
-            $this->route->getPath(),
-            $this->start_uri
-        );
-
-        return '/' . trim($uri, '/');
+        return [];
     }
 
-    protected function summary(): ?string
+    protected function getSummary(Route $route): string
     {
         return Annotation::summary(
-            $this->route->getAction()
-        );
+            $route->getAction()
+        ) ?: __('Empty summary.');
     }
 
-    protected function description(): ?string
+    protected function getDescription(Route $route): string
     {
         return Annotation::description(
-            $this->route->getAction()
-        );
+            $route->getAction()
+        ) ?: __('Empty description.');
     }
 
-    protected function operationId(): string
+    protected function getOperationId(Route $route): string
     {
-        return md5($this->route->getAction());
+        return Hash::make($route->getAction());
     }
 
-    protected function parameters(): Parameters
+    protected function getParameters(Route $route): Parameters
     {
-        return Parameters::make($this->route->getPath());
+        return Parameters::make($route->getPath());
     }
 
-    protected function responses()
+    protected function getResponses(Route $route): array
     {
-        return $this->route->getExceptions();
+        $responses = array_merge($this->getSuccessResponses($route), $this->getExceptionResponses($route));
+
+        ksort($responses);
+
+        return $responses;
+    }
+
+    protected function getSuccessResponses(Route $route): array
+    {
+        return [];
+    }
+
+    protected function getExceptionResponses(Route $route): array
+    {
+        return $route->getExceptions()
+            ->mapInto(Response::class)
+            ->toArray();
     }
 }

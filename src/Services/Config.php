@@ -44,6 +44,13 @@ final class Config
             : $filename;
     }
 
+    public function fullPath(string $extension = null): string
+    {
+        return $this->path(
+            $this->filename($extension)
+        );
+    }
+
     public function routesUri(): string
     {
         return $this->get('routes.uri');

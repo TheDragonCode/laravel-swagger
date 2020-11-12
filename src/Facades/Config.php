@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static string version()
  * @method static string path(string $path = null)
  * @method static string filename(string $extension = null)
+ * @method static string fullPath(string $extension = null)
  * @method static array exceptions()
  * @method static array servers()
  *

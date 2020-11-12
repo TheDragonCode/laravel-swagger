@@ -2,47 +2,44 @@
 
 namespace Helldar\LaravelSwagger\Models;
 
-use Helldar\LaravelSwagger\Models\Schemas\Reference;
+use Helldar\LaravelSwagger\Services\Reference;
 use Illuminate\Support\Str;
 
 final class Parameter extends BaseModel
 {
-    protected $parameter;
+    protected $attributes = [
+        'in' => 'path',
+    ];
 
+    /**
+     * @param  string  $parameter
+     *
+     * @throws \Helldar\LaravelSwagger\Exceptions\UnknownSchemaException
+     */
     public function __construct(string $parameter)
     {
-        $this->parameter = $parameter;
+        $this->setName($parameter);
+        $this->setRequired($parameter);
+        $this->setSchemaReference();
     }
 
-    public function toArray()
+    protected function setName(string $parameter): void
     {
-        return [
-            'name'     => $this->name(),
-            'in'       => $this->in(),
-            'required' => $this->required(),
-            'schema'   => [
-                '$ref' => $this->schemaReference(),
-            ],
-        ];
+        $this->setAttribute('name', trim($parameter, '{}?'));
     }
 
-    protected function name(): string
+    protected function setRequired(string $parameter): void
     {
-        return trim($this->parameter, '{}?');
+        $this->setAttribute('required', ! Str::contains($parameter, '?'));
     }
 
-    protected function in(): string
+    /**
+     * @throws \Helldar\LaravelSwagger\Exceptions\UnknownSchemaException
+     */
+    protected function setSchemaReference(): void
     {
-        return 'path';
-    }
+        $name = $this->getAttribute('name');
 
-    protected function required(): bool
-    {
-        return ! Str::contains($this->parameter, '?');
-    }
-
-    protected function schemaReference(): string
-    {
-        return Reference::make()->basic($this->name());
+        $this->setAttribute('schema.$ref', Reference::make()->basic($name));
     }
 }

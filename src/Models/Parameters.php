@@ -6,27 +6,23 @@ use Illuminate\Support\Arr;
 
 final class Parameters extends BaseModel
 {
-    protected $uri;
-
     public function __construct(string $uri)
     {
-        $this->uri = $uri;
+        $this->setMatches($uri);
     }
 
-    public function toArray()
+    protected function setMatches(string $uri): void
     {
-        $result = [];
-
-        foreach ($this->matches() as $match) {
-            $result[] = Parameter::make($match);
+        foreach ($this->matches($uri) as $match) {
+            $this->pushAttribute(
+                Parameter::make($match)
+            );
         }
-
-        return $result;
     }
 
-    protected function matches(): array
+    protected function matches(string $uri): array
     {
-        preg_match_all('/({[^}]+})/', $this->uri, $matches);
+        preg_match_all('/({[^}]+})/', $uri, $matches);
 
         return Arr::first($matches);
     }

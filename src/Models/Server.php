@@ -7,39 +7,36 @@ use Illuminate\Support\Arr;
 
 final class Server extends BaseModel
 {
-    protected $item;
-
     public function __construct(array $item)
     {
-        $this->item = $item;
+        $this->setDescription($item);
+        $this->setUrl($item);
     }
 
-    public function toArray()
+    protected function setDescription(array $item): void
     {
-        return [
-            'url' => $this->url(),
+        $value = Arr::get($item, 'description');
 
-            'description' => $this->description(),
-        ];
+        $this->setAttribute('description', $value);
     }
 
-    protected function url(): string
+    protected function setUrl(array $item): void
+    {
+        $this->setAttribute('url', $this->url($item));
+    }
+
+    protected function url(array $item): string
     {
         if ($uri = $this->getUri()) {
-            return $this->getHost() . '/' . $uri;
+            return $this->getHost($item) . '/' . $uri;
         }
 
-        return $this->getHost();
+        return $this->getHost($item);
     }
 
-    protected function description(): ?string
+    protected function getHost(array $item): string
     {
-        return Arr::get($this->item, 'description');
-    }
-
-    protected function getHost(): string
-    {
-        $value = Arr::get($this->item, 'url', 'http://localhost');
+        $value = Arr::get($item, 'url', 'http://localhost');
 
         return rtrim($value, '/');
     }

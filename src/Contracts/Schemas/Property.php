@@ -2,12 +2,11 @@
 
 namespace Helldar\LaravelSwagger\Contracts\Schemas;
 
+use Helldar\LaravelSwagger\Contracts\Keyable;
 use Illuminate\Contracts\Support\Arrayable;
 
-interface Property extends Arrayable
+interface Property extends Arrayable, Keyable
 {
-    public function getKey(): string;
-
     public function setKey(string $key): self;
 
     public function getType(): string;

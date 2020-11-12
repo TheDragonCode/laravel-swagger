@@ -2,20 +2,14 @@
 
 namespace Helldar\LaravelSwagger\Models\Schemas;
 
-use Helldar\LaravelSwagger\Models\Properties\Double_;
-use Helldar\LaravelSwagger\Models\Properties\Integer_;
-use Helldar\LaravelSwagger\Models\Properties\String_;
-
 final class Basic extends BaseSchema
 {
-    public $description = 'A set of basic fields for all schemes.';
+    protected $attributes = [
+        'description' => 'A set of basic properties.',
+    ];
 
     public function __construct()
     {
-        $this->pushProperty(String_::class, 'slug');
-        $this->pushProperty(Integer_::class, 'integer');
-        $this->pushProperty(Double_::class, 'double');
-
         $this->fromConfig();
     }
 
@@ -31,12 +25,12 @@ final class Basic extends BaseSchema
 
     protected function fromConfig(): void
     {
-        foreach ($this->properties() as $key => $class) {
+        foreach ($this->presetProperties() as $key => $class) {
             $this->pushProperty($class, $key);
         }
     }
 
-    protected function properties(): array
+    protected function presetProperties(): array
     {
         return config('laravel-swagger.schema.properties', []);
     }
