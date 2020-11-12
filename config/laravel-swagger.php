@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\PreventRequestsDuringMaintenance;
+use Helldar\LaravelSwagger\Models\Properties\Address;
 use Helldar\LaravelSwagger\Models\Properties\Double_;
 use Helldar\LaravelSwagger\Models\Properties\Integer_;
 use Helldar\LaravelSwagger\Models\Properties\String_;
@@ -181,6 +182,8 @@ return [
             'slug'    => String_::class,
             'integer' => Integer_::class,
             'double'  => Double_::class,
+
+            'address' => Address::class,
 
             /*
              * Your properties.

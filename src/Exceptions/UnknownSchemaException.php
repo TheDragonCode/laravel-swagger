@@ -9,7 +9,7 @@ final class UnknownSchemaException extends \Exception
         $schema = is_string($schema) ? $schema : get_class($schema);
 
         parent::__construct(
-            __('Unknown schema: :schema.', compact('schema'))
+            'Unknown schema: ' . $schema
         );
     }
 }

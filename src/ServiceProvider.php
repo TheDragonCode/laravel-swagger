@@ -13,6 +13,7 @@ final class ServiceProvider extends BaseServiceProvider
     {
         $this->bootCommands();
         $this->bootPublishes();
+        $this->bootTranslations();
     }
 
     public function register(): void
@@ -34,6 +35,13 @@ final class ServiceProvider extends BaseServiceProvider
         $this->publishes([
             __DIR__ . '/../config/' . $filename => $this->app->configPath($filename),
         ], 'config');
+    }
+
+    protected function bootTranslations(): void
+    {
+        $this->loadJsonTranslationsFrom(
+            __DIR__ . '/../resources/lang'
+        );
     }
 
     protected function registerConfig()

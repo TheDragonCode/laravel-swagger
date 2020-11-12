@@ -15,7 +15,9 @@ trait Faker
 
     protected function makeExample()
     {
-        $this->setExample($this->castFakeType());
+        $this->setExample(
+            $this->userExample() ?: $this->castFakeType()
+        );
     }
 
     protected function getFaker()
@@ -41,16 +43,17 @@ trait Faker
 
     protected function castFakeNumericFormat()
     {
-        if (property_exists($this, 'format')) {
-            switch ($this->format) {
-                case 'double':
-                    return $this->getFaker()->randomFloat();
+        switch ($this->getAttribute('format')) {
+            case 'double':
+                return $this->getFaker()->randomFloat();
 
-                default:
-                    return $this->getFaker()->numberBetween();
-            }
+            default:
+                return $this->getFaker()->numberBetween();
         }
+    }
 
-        return $this->getFaker()->numberBetween();
+    protected function userExample()
+    {
+        return null;
     }
 }

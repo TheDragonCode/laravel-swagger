@@ -10,6 +10,12 @@ abstract class BaseProperty extends BaseModel implements Property
 {
     use Faker;
 
+    public $key;
+
+    protected $attributes = [
+        'type' => 'string',
+    ];
+
     public function __construct()
     {
         $this->makeExample();
@@ -17,12 +23,12 @@ abstract class BaseProperty extends BaseModel implements Property
 
     public function getKey(): string
     {
-        return $this->getAttribute('key');
+        return $this->key;
     }
 
     public function setKey(string $key): Property
     {
-        $this->setAttribute('key', $key);
+        $this->key = $key;
 
         return $this;
     }

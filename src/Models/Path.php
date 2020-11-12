@@ -84,7 +84,7 @@ final class Path extends BaseModel implements Pathable
 
     protected function getResponses(Route $route): array
     {
-        $responses = array_merge($this->getSuccessResponses($route), $this->getExceptionResponses($route));
+        $responses = $this->getSuccessResponses($route) + $this->getExceptionResponses($route);
 
         ksort($responses);
 

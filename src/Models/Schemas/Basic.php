@@ -5,6 +5,7 @@ namespace Helldar\LaravelSwagger\Models\Schemas;
 final class Basic extends BaseSchema
 {
     protected $attributes = [
+        'type'        => 'object',
         'description' => 'A set of basic properties.',
     ];
 
