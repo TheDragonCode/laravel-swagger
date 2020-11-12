@@ -2,7 +2,6 @@
 
 use App\Http\Middleware\PreventRequestsDuringMaintenance;
 use Helldar\LaravelSwagger\Models\Properties\Address;
-use Helldar\LaravelSwagger\Models\Properties\Double_;
 use Helldar\LaravelSwagger\Models\Properties\Integer_;
 use Helldar\LaravelSwagger\Models\Properties\String_;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
@@ -79,15 +78,17 @@ return [
              * Examples of Security schemes
              */
 
-            'api_key_security_example' => [ // Unique name of security
-                                            'type'        => 'apiKey', // The type of the security scheme. Valid values are "basic", "apiKey" or "oauth2".
-                                            'description' => 'A short description for security scheme',
-                                            'name'        => 'api_key', // The name of the header or query parameter to be used.
-                                            'in'          => 'header', // The location of the API key. Valid values are "query" or "header".
+            // Unique name of security
+            'api_key_security_example' => [
+                'type'        => 'apiKey', // The type of the security scheme. Valid values are "basic", "apiKey" or "oauth2".
+                'description' => 'A short description for security scheme',
+                'name'        => 'api_key', // The name of the header or query parameter to be used.
+                'in'          => 'header', // The location of the API key. Valid values are "query" or "header".
             ],
 
             /*
-            'oauth2_security_example' => [ // Unique name of security
+            // Unique name of security
+            'oauth2_security_example' => [
                 'type' => 'oauth2', // The type of the security scheme. Valid values are "basic", "apiKey" or "oauth2".
                 'description' => 'A short description for oauth2 security scheme.',
                 'flow' => 'implicit', // The flow used by the OAuth2 security scheme. Valid values are "implicit", "password", "application" or "accessCode".
@@ -101,7 +102,8 @@ return [
             */
 
             /* Open API 3.0 support
-            'passport' => [ // Unique name of security
+            // Unique name of security
+            'passport' => [
                 'type' => 'oauth2', // The type of the security scheme. Valid values are "basic", "apiKey" or "oauth2".
                 'description' => 'Laravel passport oauth2 security.',
                 'in' => 'header',
@@ -174,23 +176,10 @@ return [
 
     'schema' => [
         'properties' => [
-
-            /*
-             * Basic properties.
-             */
-
             'slug'    => String_::class,
-            'integer' => Integer_::class,
-            'double'  => Double_::class,
-
             'address' => Address::class,
-
-            /*
-             * Your properties.
-             */
-
-            'foo' => String_::class,
-            'bar' => Integer_::class,
+            'foo'     => String_::class,
+            'bar'     => Integer_::class,
         ],
     ],
 ];

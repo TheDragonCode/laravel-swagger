@@ -17,6 +17,10 @@ use Illuminate\Support\Facades\Facade;
  * @method static string routesUri()
  * @method static array routesHideMethods()
  * @method static array routesHideMatching()
+ *
+ * @method static array securitySchemes()
+ *
+ * @method static array schemaProperties()
  */
 final class Config extends Facade
 {

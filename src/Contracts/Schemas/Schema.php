@@ -10,4 +10,6 @@ interface Schema extends Arrayable, Keyable
     public function addProperty(Property $property): self;
 
     public function getProperty(string $key): Property;
+
+    public function hasProperty(string $key): bool;
 }

@@ -50,6 +50,22 @@ final class Schemas
     }
 
     /**
+     * @param  \Helldar\LaravelSwagger\Contracts\Schemas\Schema|string  $schema
+     * @param  string|null  $property
+     *
+     * @throws \Helldar\LaravelSwagger\Exceptions\UnknownSchemaException
+     * @return bool
+     */
+    public static function has($schema, string $property = null): bool
+    {
+        static::check($schema);
+
+        return $property
+            ? static::resolve($schema)->hasProperty($property)
+            : true;
+    }
+
+    /**
      * @param $schema
      *
      * @throws \Helldar\LaravelSwagger\Exceptions\UnknownSchemaException

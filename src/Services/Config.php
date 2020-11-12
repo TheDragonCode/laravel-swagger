@@ -66,6 +66,16 @@ final class Config
         return $this->get('routes.hide.matching', []);
     }
 
+    public function securitySchemes(): array
+    {
+        return $this->get('security.schemes', []);
+    }
+
+    public function schemaProperties(): array
+    {
+        return $this->get('schema.properties', []);
+    }
+
     protected function get(string $key, $default = null)
     {
         return config(self::NAME . '.' . $key, $default);

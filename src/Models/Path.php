@@ -42,7 +42,7 @@ final class Path extends BaseModel implements Pathable
     protected function each(array $methods, array $data): void
     {
         foreach ($methods as $method) {
-            $this->setAttribute($method, $data);
+            $this->setAttribute(Str::lower($method), $data);
         }
     }
 

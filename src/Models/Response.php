@@ -40,6 +40,11 @@ final class Response extends BaseModel implements Responsible
         return $this;
     }
 
+    protected function setDescription(): void
+    {
+        $this->setAttribute('description', $this->tag->getClass());
+    }
+
     /**
      * @throws \Helldar\LaravelSwagger\Exceptions\UnknownSchemaException
      *
@@ -54,15 +59,7 @@ final class Response extends BaseModel implements Responsible
 
     protected function resolveSchema(): Schema
     {
-        return MakeSchema::make()
-            ->setDescription($this->getAttribute('description'));
-    }
-
-    protected function setDescription(): void
-    {
-        $value = $this->tag->getDescription() ?: __('Empty description.');
-
-        $this->setAttribute('description', $value);
+        return MakeSchema::make();
     }
 
     /**

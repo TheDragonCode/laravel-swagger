@@ -82,7 +82,7 @@ final class Swagger implements Contract
 
     protected function securitySchemes(): array
     {
-        return [];
+        return ConfigFacade::securitySchemes();
     }
 
     protected function getInfo(): array

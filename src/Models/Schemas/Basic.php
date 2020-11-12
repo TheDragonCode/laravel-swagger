@@ -2,11 +2,13 @@
 
 namespace Helldar\LaravelSwagger\Models\Schemas;
 
+use Helldar\LaravelSwagger\Facades\Config;
+
 final class Basic extends BaseSchema
 {
     protected $attributes = [
         'type'        => 'object',
-        'description' => 'A set of basic properties.',
+        'description' => self::class,
     ];
 
     public function __construct()
@@ -33,6 +35,6 @@ final class Basic extends BaseSchema
 
     protected function presetProperties(): array
     {
-        return config('laravel-swagger.schema.properties', []);
+        return array_merge($this->casts, Config::schemaProperties());
     }
 }

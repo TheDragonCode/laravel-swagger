@@ -7,10 +7,13 @@ use Helldar\LaravelSwagger\Contracts\Schemas\Schema;
 use Helldar\LaravelSwagger\Exceptions\UnknownPropertyNameException;
 use Helldar\LaravelSwagger\Facades\Hash;
 use Helldar\LaravelSwagger\Models\BaseModel;
+use Helldar\LaravelSwagger\Models\Properties\Concerns\Castable;
 use Illuminate\Support\Arr;
 
 abstract class BaseSchema extends BaseModel implements Schema
 {
+    use Castable;
+
     protected $attributes = [
         'type' => 'object',
     ];
@@ -40,6 +43,11 @@ abstract class BaseSchema extends BaseModel implements Schema
         return Arr::get($this->properties(), $key);
     }
 
+    public function hasProperty(string $key): bool
+    {
+        return Arr::exists($this->properties(), $key);
+    }
+
     public function setDescription($description): Schema
     {
         $this->setAttribute('description', $description);
@@ -57,5 +65,10 @@ abstract class BaseSchema extends BaseModel implements Schema
     protected function properties(): array
     {
         return $this->getAttribute('properties', []);
+    }
+
+    protected function resolve($class)
+    {
+        return is_string($class) ? new $class : $class;
     }
 }
