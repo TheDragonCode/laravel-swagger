@@ -5,7 +5,7 @@ namespace Tests;
 use Helldar\LaravelSwagger\ServiceProvider as PackageServiceProvider;
 use Helldar\LaravelSwagger\Services\Config;
 use Orchestra\Testbench\TestCase as BaseTestCase;
-use Tests\fixtures\ServiceProvider as FixtureServiceProvider;
+use Tests\Fixtures\ServiceProvider as FixtureServiceProvider;
 
 abstract class TestCase extends BaseTestCase
 {
