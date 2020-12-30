@@ -4,7 +4,7 @@ namespace Helldar\LaravelSwagger\Services;
 
 use Helldar\LaravelSwagger\Contracts\Swagger as Contract;
 use Helldar\LaravelSwagger\Facades\Config as ConfigFacade;
-use Helldar\Support\Facades\File;
+use Helldar\Support\Facades\Helpers\Filesystem\File;
 use Symfony\Component\Yaml\Yaml;
 
 final class Files

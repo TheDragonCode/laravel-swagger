@@ -15,11 +15,11 @@
         }
     ],
     "require": {
-        "php": "^7.2|^8.0",
+        "php": "^7.2.5|^8.0",
         "ext-json": "*",
         "ext-yaml": "*",
-        "andrey-helldar/laravel-routes-core": "dev-master",
-        "andrey-helldar/support": "^1.24",
+        "andrey-helldar/laravel-routes-core": "^2.0",
+        "andrey-helldar/support": "^2.0",
         "fakerphp/faker": "^1.9.1",
         "illuminate/console": "^7.0|^8.0",
         "illuminate/http": "^7.0|^8.0",
