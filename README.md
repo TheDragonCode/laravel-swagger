@@ -2,6 +2,8 @@
 
 Documentation generation for Swagger without OpenAPI
 
+<img src="https://preview.dragon-code.pro/andrey-helldar/laravel-swagger.svg?brand=laravel" alt="Laravel Swagger"/>
+
 ## Installation
 
 > Note:
