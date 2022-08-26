@@ -1,38 +1,49 @@
 {
     "name": "andrey-helldar/laravel-swagger",
     "description": "Documentation generation for Swagger without OpenAPI",
-    "type": "library",
     "license": "MIT",
-    "keywords": ["laravel", "swagger", "json", "yaml", "rest", "api", "doc", "documentation"],
+    "type": "library",
+    "keywords": [
+        "laravel",
+        "swagger",
+        "json",
+        "yaml",
+        "rest",
+        "api",
+        "doc",
+        "documentation"
+    ],
+    "authors": [
+        {
+            "name": "Andrey Helldar",
+            "email": "helldar@dragon-code.pro"
+        }
+    ],
     "support": {
         "issues": "https://github.com/andrey-helldar/laravel-swagger/issues",
         "source": "https://github.com/andrey-helldar/laravel-swagger"
     },
-    "authors": [
-        {
-            "name": "Andrey Helldar",
-            "email": "helldar@ai-rus.com"
-        }
-    ],
     "require": {
-        "php": "^7.2.5|^8.0",
+        "php": "^7.2.5 || ^8.0",
         "ext-json": "*",
         "ext-yaml": "*",
         "andrey-helldar/laravel-routes-core": "^2.0",
         "andrey-helldar/support": "^2.0",
         "fakerphp/faker": "^1.9.1",
-        "illuminate/console": "^7.0|^8.0",
-        "illuminate/http": "^7.0|^8.0",
-        "illuminate/routing": "^7.0|^8.0",
-        "illuminate/support": "^7.0|^8.0",
+        "illuminate/console": "^7.0 || ^8.0",
+        "illuminate/http": "^7.0 || ^8.0",
+        "illuminate/routing": "^7.0 || ^8.0",
+        "illuminate/support": "^7.0 || ^8.0",
         "phpdocumentor/reflection-docblock": "^5.1",
         "symfony/yaml": "^5.0"
     },
     "require-dev": {
         "mockery/mockery": "^1.4",
-        "orchestra/testbench": "^5.0|^6.0",
+        "orchestra/testbench": "^5.0 || ^6.0",
         "phpunit/phpunit": "^9.4"
     },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Helldar\\LaravelSwagger\\": "src"
@@ -47,8 +58,6 @@
         "preferred-install": "dist",
         "sort-packages": true
     },
-    "minimum-stability": "stable",
-    "prefer-stable": true,
     "extra": {
         "laravel": {
             "providers": [
